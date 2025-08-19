@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: b64e7bfed3af07540960a741f9195d89
+timeCreated: 1511244074
+licenseType: Store
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 18392
+  packageName: Japanese School Classroom
+  packageVersion: 2.0
+  assetPath: Assets/JP_School classroom_V2/Scenes/School_Classroom.unity
+  uploadId: 276371
