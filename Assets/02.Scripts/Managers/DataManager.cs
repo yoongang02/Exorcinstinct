@@ -70,5 +70,7 @@ public class DataManager : MonoBehaviour
             if (s == null || string.IsNullOrEmpty(s.id)) continue;
             _causes[s.id] = s;
         }
+
+        Debug.Log("[DataManager] : SO 데이터 초기화 완료");
     }
 }
