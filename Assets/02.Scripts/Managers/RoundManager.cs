@@ -1,9 +1,17 @@
+﻿using OpenAI;
 using System.Collections.Generic;
 using UnityEngine;
 
+public struct Answer
+{
+    public StudentSO studentSO;
+    public LocationSO locationSO;
+    public CauseSO causeSO;
+}
 public class RoundManager : MonoBehaviour
 {
     public static RoundManager Instance { get; private set; }
+    private Answer _currentAnswer;
 
     private void Awake()
     {
@@ -20,15 +28,20 @@ public class RoundManager : MonoBehaviour
     
     public void RoundStart()
     {
-        PickRandomAnswer();
+        // 라운드 시작 시, 정답을 랜덤으로 생성
+        _currentAnswer = PickRandomAnswer();
+
+        // GPT 매니저에 정답 전달 및 시스템 프롬프트 설정
+        GptManager.Instance.RoundStartSetting(_currentAnswer);
     }
-    
+
     // 라운드 시작마다, 정답을 랜덤으로 생성하는 함수
-    private void PickRandomAnswer()
+    private Answer PickRandomAnswer()
     {
         List<StudentSO> studentOptions = new List<StudentSO>();
         List<LocationSO> locationOptions = new List<LocationSO>();
-        
+        List<CauseSO> causeOptions = new List<CauseSO>();
+
         // #1 enabled = true 인 항목만 선택지에 포함하기
         foreach (var student in DataManager.Instance.Students)
         {
@@ -51,7 +64,8 @@ public class RoundManager : MonoBehaviour
         // #2 WeightedRandomPicker 생성
         var studentPicker = new Rito.WeightedRandomPicker<StudentSO>();
         var locationPicker = new Rito.WeightedRandomPicker<LocationSO>();
-        
+        var causePicker = new Rito.WeightedRandomPicker<CauseSO>();
+
         // #3 WeightedRandomPicker에 후보지 전달하기
         foreach (var option in studentOptions)
         {
@@ -65,9 +79,30 @@ public class RoundManager : MonoBehaviour
         // #4 Pick 하기
         StudentSO studentPick = studentPicker.GetRandomPick();
         LocationSO locationPick = locationPicker.GetRandomPick();
-        
+
+
+        // #5 뽑힌 LocationSO가 갖고 있는 CauseSO를 확인하고, CauseSO를 뽑아내기
+        foreach (var cause in locationPick.causes)
+        {
+            if (cause == null) continue;
+            if (!cause.enabled) continue; // CauseSO도 enabled 체크
+            
+            causePicker.Add(cause, cause.weight);
+        }
+        CauseSO causePick = causePicker.GetRandomPick();
+
         // #5 Pick 값 확인하기
         Debug.Log($"Student Pick : {studentPick.label}({studentPick.id})");
         Debug.Log($"Location Pick : {locationPick.label}({locationPick.id})");
+        Debug.Log($"Cause Pick : {causePick.label}({causePick.id})");
+
+        Answer answer = new Answer
+        {
+            studentSO = studentPick,
+            locationSO = locationPick,
+            causeSO = causePick,
+        };
+
+        return answer;
     }
 }
