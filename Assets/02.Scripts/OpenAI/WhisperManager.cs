@@ -88,9 +88,16 @@ namespace Samples.Whisper
             var res = await _openai.CreateAudioTranscription(req);
 
             _outputText = res.Text;
-            _recordButton.interactable = true;
 
             Debug.Log($"녹음 완료. 텍스트: {_outputText}");
+
+            // 변환한 질문 텍스트를 GptManager에 전달해서 응답 받기
+            if (!string.IsNullOrWhiteSpace(res.Text))
+            {
+                string jundgement = await GptManager.Instance.RespondToPlayer(res.Text);
+                Debug.Log($"GptManager 응답: {jundgement}");
+                _recordButton.interactable = true;
+            }
         }
     }
 }
