@@ -7,7 +7,7 @@ public class BackPackItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 {
     [SerializeField] private ObjectInfoSO _objectInfo;
     [SerializeField] private GameObject _toolTip;
-    [SerializeField] private Vector2 _offset = new Vector2(-12f, 0f); // 커서와 툴팁 사이의 간격
+    [SerializeField] private Vector2 _offset = new Vector2(0f, -100f); // 커서와 툴팁 사이의 간격
 
     private Outline _outline;
     private Canvas _toolTipCanvas;
@@ -79,6 +79,7 @@ public class BackPackItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         // 아웃라인 효과 활성화
         _outline.enabled = true;
+        ShowToolTip();
     }
 
     /// <summary>
@@ -89,6 +90,7 @@ public class BackPackItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         // 아웃라인 효과 비활성화
         _outline.enabled = false;
+        HideToolTip();
     }
 
     /// <summary>
@@ -98,7 +100,7 @@ public class BackPackItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     /// <exception cref="System.NotImplementedException"></exception>
     public void OnPointerClick(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
+        UseItem();
     }
 
     /// <summary>

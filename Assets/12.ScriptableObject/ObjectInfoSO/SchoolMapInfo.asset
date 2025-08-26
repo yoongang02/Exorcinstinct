@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: SchoolMapInfo
   m_EditorClassIdentifier: 
   objectName: "\uD559\uAD50 \uC9C0\uB3C4"
-  objectDescription: "\uAD6C\uC5ED\uBCC4\uB85C \uC704\uD5D8\uC694\uC18C\uAC00 \uD45C\uC2DC\uB418\uC5B4
+  objectDescription: "\uAD6C\uC5ED\uBCC4\uB85C \uC704\uD5D8\uC694\uC18C\uAC00<br>\uD45C\uC2DC\uB418\uC5B4
     \uC788\uB294 \uC9C0\uB3C4"
