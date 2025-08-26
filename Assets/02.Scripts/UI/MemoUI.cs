@@ -3,6 +3,7 @@ using System.Data;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Windows;
 
 public class MemoUI : UIBase
 {
@@ -18,6 +19,7 @@ public class MemoUI : UIBase
 
     private List<string> _memoPages = new List<string>();
     private int _currentPageIndex = 0;
+
     public override void OnOpen()
     {
         base.OnOpen();
@@ -30,6 +32,16 @@ public class MemoUI : UIBase
 
         // 메모장 열리는 효과
         transform.GetChild(0).gameObject.SetActive(true);
+
+        _leftTextField.onSubmit.AddListener(_ =>
+        {
+            SetFocus(_leftTextField);
+        });
+
+        _rightTextField.onSubmit.AddListener(_ =>
+        {
+            SetFocus(_rightTextField);
+        });
 
         // 왼쪽 페이지 포커스 할당
         FocusAtEnd();
@@ -47,6 +59,26 @@ public class MemoUI : UIBase
 
         // 메모장 닫히는 효과
         transform.GetChild(0).gameObject.SetActive(false);
+
+        _leftTextField.onSubmit.RemoveListener(_ =>
+        {
+            SetFocus(_leftTextField);
+        });
+
+        _rightTextField.onSubmit.RemoveListener(_ =>
+        {
+            SetFocus(_rightTextField);
+        });
+    }
+
+    void SetFocus(TMP_InputField inputField)
+    {
+        // 포커스 유지
+        inputField.Select();
+        inputField.ActivateInputField();
+        // 필요하면 커서를 끝으로
+        int end = inputField.text.Length;
+        inputField.caretPosition = inputField.stringPosition = end;
     }
 
     public override void HandleKeyboardInput()
@@ -93,7 +125,7 @@ public class MemoUI : UIBase
     // 현재 페이지들 마지막 글자로 커서 및 포커스 이동하는 함수
     private void FocusAtEnd()
     {
-        if (_leftTextField.text.ToCharArray().Length == _leftTextField.characterLimit - 1)
+        if(_rightTextField.text.Length > 0)
         {
             _rightTextField.Select();
             _rightTextField.ActivateInputField();
@@ -147,21 +179,5 @@ public class MemoUI : UIBase
     {
         _memoPages[_currentPageIndex] = _leftTextField.text;
         _memoPages[_currentPageIndex + 1] = _rightTextField.text;
-    }
-
-    public void OnValueChanged()
-    {
-        if (_leftTextField.isFocused && _leftTextField.text.ToCharArray().Length == _leftTextField.characterLimit - 1)
-        {
-            _rightTextField.Select();
-            _rightTextField.ActivateInputField();
-        }
-
-        if (_rightTextField.isFocused && _rightTextField.text.ToCharArray().Length == 0 && InputRouter.Instance.ConsumeBackSpace())
-        {
-            _leftTextField.Select();
-            _leftTextField.ActivateInputField();
-            _leftTextField.caretPosition = _leftTextField.text.Length;
-        }
     }
 }

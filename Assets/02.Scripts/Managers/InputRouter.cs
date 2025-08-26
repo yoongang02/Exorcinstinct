@@ -23,6 +23,9 @@ public class InputRouter : MonoBehaviour
     public bool PressedBackSpace { get; private set; }
     private bool ConsumedBackSpace;
 
+    public bool PressedEnter { get; private set; }
+    private bool ConsumedEnter;
+
     void Update()
     {
         PressedE = Input.GetKeyDown(KeyCode.E);
@@ -30,6 +33,9 @@ public class InputRouter : MonoBehaviour
 
         PressedBackSpace = Input.GetKeyDown(KeyCode.Backspace);
         ConsumedBackSpace = false;
+
+        PressedEnter = Input.GetKeyDown(KeyCode.Return);
+        ConsumedEnter = false;
     }
 
     public bool ConsumeE()
@@ -47,6 +53,16 @@ public class InputRouter : MonoBehaviour
         if (PressedBackSpace && !ConsumedBackSpace)
         {
             ConsumedBackSpace = true;
+            return true;
+        }
+        return false;
+    }
+
+    public bool ConsumeEnter()
+    {
+        if (PressedEnter && !ConsumedEnter)
+        {
+            ConsumedEnter = true;
             return true;
         }
         return false;
