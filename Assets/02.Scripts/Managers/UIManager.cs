@@ -9,6 +9,9 @@ public class UIManager : MonoBehaviour
 
     private Stack<UIBase> _uiStack = new Stack<UIBase>();
 
+    [Header("UI 목록")]
+    [Space(5)]
+    [SerializeField] private UIBase _memoUI;
 
     private void Awake()
     {
@@ -20,6 +23,17 @@ public class UIManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void Update()
+    {
+        if(!IsAnyUIOpen())
+        {
+            if(InputRouter.Instance.ConsumeE())
+            {
+                OpenUI(_memoUI);
+            }
         }
     }
 
@@ -73,5 +87,4 @@ public class UIManager : MonoBehaviour
     {
         return _uiStack.Contains(ui);
     }
-
 }
