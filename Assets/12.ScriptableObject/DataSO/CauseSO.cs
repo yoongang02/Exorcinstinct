@@ -7,4 +7,5 @@ public class CauseSO : ScriptableObject
     public string label;
     public bool enabled = true;
     public int weight = 1;
+    public string iconPath;
 }
