@@ -209,6 +209,7 @@ GameObject:
   m_Component:
   - component: {fileID: 19317810}
   - component: {fileID: 19317811}
+  - component: {fileID: 19317812}
   m_Layer: 0
   m_Name: Amulet Key UI
   m_TagString: Untagged
@@ -225,7 +226,7 @@ RectTransform:
   m_GameObject: {fileID: 19317809}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1862373797}
@@ -263,6 +264,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &19317812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19317809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5521ebeeaf41f1546b40807af1c69cd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &22419814
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -246110,7 +246123,7 @@ MonoBehaviour:
   NoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
   PivotOffset: {x: 0, y: 100, z: 0}
   AmplitudeGain: 0.07
-  FrequencyGain: 0.005
+  FrequencyGain: 0.006
   m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!114 &1219634484
 MonoBehaviour:
