@@ -14,3 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Cause_004
   label: "\uACE0\uC628\uC0AC"
+  enabled: 1
+  weight: 1
+  iconPath: CauseIcon/Cause_001
