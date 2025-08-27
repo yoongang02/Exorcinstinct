@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Student_NNN", menuName = "Scriptable Object/Student Data")]
@@ -10,4 +10,5 @@ public class StudentSO : ScriptableObject
     public bool enabled = true;
     public float weight = 1;
     public string sprite = "Portrait/Student_NNN";
+    public char firstName;
 }
