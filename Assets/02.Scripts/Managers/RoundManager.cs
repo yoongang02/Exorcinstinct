@@ -1,6 +1,7 @@
 ﻿using OpenAI;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public struct Answer
 {
@@ -12,6 +13,11 @@ public class RoundManager : MonoBehaviour
 {
     public static RoundManager Instance { get; private set; }
     private Answer _currentAnswer;
+
+    public UnityAction OnClearAmulet;
+    public UnityAction<StudentSO> OnSetStudent;
+    public UnityAction<LocationSO> OnSetLocation;
+    public UnityAction<CauseSO> OnSetCause;
 
     private void Awake()
     {
@@ -25,9 +31,12 @@ public class RoundManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    
+
     public void RoundStart()
     {
+        // 부적 UI 초기화
+        OnClearAmulet?.Invoke();
+
         // 라운드 시작 시, 정답을 랜덤으로 생성
         _currentAnswer = PickRandomAnswer();
 

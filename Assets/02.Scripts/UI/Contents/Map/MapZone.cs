@@ -15,6 +15,7 @@ public class MapZone : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     [SerializeField] private float _colorAlphaValue = 0.5f;
 
     private ToolTip _toolTip;
+    private AmuletUI _amuletUI;
 
     private void Awake()
     {
@@ -24,6 +25,7 @@ public class MapZone : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     private void Start()
     {
+        _amuletUI = FindAnyObjectByType<AmuletUI>();
         Initialize();
     }
 
@@ -40,7 +42,8 @@ public class MapZone : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        
+        // 맵 존 클릭 시, 부적에 해당 장소 세팅
+        RoundManager.Instance.OnSetLocation?.Invoke(_locationSO);
     }
 
     /// <summary>

@@ -13,6 +13,14 @@ public class AmuletUI : UIBase
     [SerializeField] private Sprite _emptySprite;
     [SerializeField] Button CheckAnswerBtn;
 
+    private void Start()
+    {
+        RoundManager.Instance.OnClearAmulet += ClearAll;
+        RoundManager.Instance.OnSetStudent += SetStudent;
+        RoundManager.Instance.OnSetLocation += SetLocation;
+        RoundManager.Instance.OnSetCause += SetCause;
+    }
+
     public override void OnOpen()
     {
         base.OnOpen();
@@ -29,19 +37,19 @@ public class AmuletUI : UIBase
     /// 명단, 지도 등에서 호출하는 함수. 정보 세팅을 할 수 있다.
     /// </summary>
 
-    public void SetStudent(StudentSO student)
+    private void SetStudent(StudentSO student)
     {
         _nameText.text = student.label;
         _portraitImage.sprite = Resources.Load<Sprite>(student.sprite);
     }
 
-    public void SetLocation(LocationSO location)
+    private void SetLocation(LocationSO location)
     {
         string str = $"{location.floor} {location.direction} {location.label}";
         _locationText.text = str;
     }
 
-    public void SetCause(CauseSO cause)
+    private void SetCause(CauseSO cause)
     {
         _causeText.text = cause.label;
     }
@@ -50,18 +58,25 @@ public class AmuletUI : UIBase
     /// 정보를 초기화하는 함수
     /// </summary>
 
-    public void ClearStudent()
+    private void ClearAll()
+    {
+        ClearStudent();
+        ClearLocation();
+        ClearCause();
+    }
+
+    private void ClearStudent()
     {
         _nameText.text = string.Empty;
         _portraitImage.sprite = _emptySprite;
     }
 
-    public void ClearLocation()
+    private void ClearLocation()
     {
         _locationText.text = string.Empty;
     }
 
-    public void ClearCause()
+    private void ClearCause()
     {
         _causeText.text = string.Empty;
     }
