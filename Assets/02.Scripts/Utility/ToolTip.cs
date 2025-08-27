@@ -55,6 +55,12 @@ public class ToolTip : MonoBehaviour
         _toolTip.SetActive(true);
     }
 
+    public void ShowToolTip(LocationSO location, CauseSO cause)
+    {
+        SetToolTipText(location, cause);
+        _toolTip.SetActive(true);
+    }
+
     public void HideToolTip()
     {
         _toolTip.SetActive(false);
@@ -88,7 +94,7 @@ public class ToolTip : MonoBehaviour
         Transform slotParent = _toolTip.transform.GetChild(1);
 
         // 기존 슬롯 제거
-        foreach(Transform child in slotParent)
+        foreach (Transform child in slotParent)
         {
             Destroy(child.gameObject);
         }
@@ -103,10 +109,58 @@ public class ToolTip : MonoBehaviour
             slotText.text = causeSO.label;
 
             // cause 아이콘 설정
-            Image icon = slot.GetComponentInChildren<Image>();
-            icon.sprite = Resources.Load<Sprite>(causeSO.iconPath);
+            GameObject causeIcon = slot.transform.GetChild(0).gameObject;
+            Image iconImage = causeIcon.GetComponent<Image>();
+
+            // 아웃라인 비활성화
+            iconImage.enabled = false;
+
+            Image innerIcon = causeIcon.GetComponentInChildren<Image>();
+            innerIcon.sprite = Resources.Load<Sprite>(causeSO.iconPath);
+        }
+    }
+
+        public void SetToolTipText(LocationSO location, CauseSO cause)
+    {
+        // location의 label 정보를 툴팁 타이틀로 설정
+        TextMeshProUGUI name = _toolTip.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        name.text = location.label;
+
+        // location의 causes 내의 causeSO 개수만큼 툴팁에 슬롯 생성
+        Transform slotParent = _toolTip.transform.GetChild(1);
+
+        // 기존 슬롯 제거
+        foreach (Transform child in slotParent)
+        {
+            Destroy(child.gameObject);
         }
 
+        // 신규 슬롯 생성
+        foreach (var causeSO in location.causes)
+        {
+            GameObject slot = Instantiate(_causeSlotPrefab, slotParent);
+
+            // cause 이름 설정
+            TextMeshProUGUI slotText = slot.GetComponentInChildren<TextMeshProUGUI>();
+            slotText.text = causeSO.label;
+
+            // cause 아이콘 설정, 아웃라인 활성화
+            GameObject causeIcon = slot.transform.GetChild(0).gameObject;
+            Image iconImage = causeIcon.GetComponent<Image>();
+
+            if (cause == causeSO)
+            {
+                // 아웃라인 활성화
+                iconImage.enabled = true;
+            }
+            else
+            {
+                // 아웃라인 비활성화
+                iconImage.enabled = false;
+            }
+                Image innerIcon = causeIcon.GetComponentInChildren<Image>();
+            innerIcon.sprite = Resources.Load<Sprite>(causeSO.iconPath);
+        }
     }
 
     /// <summary>

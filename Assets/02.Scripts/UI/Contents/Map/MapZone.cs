@@ -60,4 +60,6 @@ public class MapZone : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         color.a = value;
         _mapBackground.color = color;
     }
+
+    public LocationSO GetLocationSO() { return _locationSO; }
 }
