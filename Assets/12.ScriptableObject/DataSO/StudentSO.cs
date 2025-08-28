@@ -10,5 +10,5 @@ public class StudentSO : ScriptableObject
     public bool enabled = true;
     public float weight = 1;
     public string sprite = "Portrait/Student_NNN";
-    public char firstName;
+    public int chapterIndex;
 }
