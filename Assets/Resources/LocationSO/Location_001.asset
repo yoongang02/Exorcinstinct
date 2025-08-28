@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: Location_001
   m_EditorClassIdentifier: 
   id: Location_001
+  floor: "4\uCE35"
+  direction: "\uC11C\uAD00"
   label: "\uC74C\uC545\uC2E4"
   causes:
-  - {fileID: 11400000, guid: b71da41f8ce384022aba05c629c69d50, type: 2}
   - {fileID: 11400000, guid: cbbb4aebee6b6403fbe10ee3189275d2, type: 2}
+  - {fileID: 11400000, guid: e9aa7464db2860c46bff830a2628f535, type: 2}
+  - {fileID: 11400000, guid: 656c1e07b2c569c44ad14cb30db05a21, type: 2}
   enabled: 1
   weight: 1
