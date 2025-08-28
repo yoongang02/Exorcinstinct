@@ -250634,6 +250634,16 @@ MonoBehaviour:
   - {fileID: 211857812}
   _prevBtn: {fileID: 1246292578}
   _nextBtn: {fileID: 1274765911}
+  _chapters:
+  - {fileID: 1578262785}
+  - {fileID: 1689028518}
+  - {fileID: 1972740527}
+  - {fileID: 706524036}
+  - {fileID: 1878408017}
+  - {fileID: 1141256388}
+  - {fileID: 974476144}
+  _selected: {x: -590, y: 0, z: 0}
+  _disSelected: {x: -614, y: 0, z: 0}
 --- !u!1 &1448480910
 GameObject:
   m_ObjectHideFlags: 0

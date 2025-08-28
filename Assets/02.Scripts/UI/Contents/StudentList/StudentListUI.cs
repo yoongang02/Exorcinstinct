@@ -19,6 +19,9 @@ public class StudentListUI : MonoBehaviour
     [Space(5)]
     [SerializeField] private Button _prevBtn;
     [SerializeField] private Button _nextBtn;
+    [SerializeField] private List<Button> _chapters = new List<Button>();
+    [SerializeField] private Vector3 _selected;
+    [SerializeField] private Vector3 _disSelected;
 
     private List<StudentSO> _students = new List<StudentSO>();
     private List<int> _chapterList = new List<int>();
@@ -125,6 +128,7 @@ public class StudentListUI : MonoBehaviour
                 // 이전 챕터로 이동
                 int curChapterIndex = _chapterList.IndexOf(_currentChapterIndex);
                 _currentChapterIndex = _chapterList[curChapterIndex - 1];
+                SetChapterPosition(_currentChapterIndex);
 
                 // 이전 챕터 학생이 몇 페이지 나오는지 계산해서 offset 결정해야 함.
                 // 이전 챕터의 총 학생 수 계산
@@ -157,6 +161,7 @@ public class StudentListUI : MonoBehaviour
                 // 마지막 챕터가 아니라면, 다음 챕터로 이동
                 int curChapterIndex = _chapterList.IndexOf(_currentChapterIndex);
                 _currentChapterIndex = _chapterList[curChapterIndex + 1];
+                SetChapterPosition(_currentChapterIndex);
                 _currentOffset = 0;
             }
         }
@@ -165,9 +170,41 @@ public class StudentListUI : MonoBehaviour
 
     public void OnClickChapter(int chapterIndex)
     {
+        if (!_chapterList.Contains(chapterIndex)) return;
         _currentChapterIndex = chapterIndex;
         _currentOffset = 0;
+
+        SetChapterPosition(chapterIndex);
         UpdatePages();
+    }
+
+    private void SetChapterPosition(int chapterIndex)
+    {
+        for (int i = 0; i < _chapters.Count; i++)
+        {
+            if (i == chapterIndex)
+            {
+                OnChapterSelected(i);
+            }
+            else
+            {
+                OnChapterDisSelected(i);
+            }
+        }
+    }
+
+    private void OnChapterSelected(int chapterIndex)
+    {
+        Transform t = _chapters[chapterIndex].GetComponent<Transform>();
+        Vector3 newPos = new Vector3(_selected.x, t.localPosition.y, t.localPosition.z);
+        t.localPosition = newPos;
+    }
+    
+    private void OnChapterDisSelected(int chapterIndex)
+    {
+        Transform t = _chapters[chapterIndex].GetComponent<Transform>();
+        Vector3 newPos = new Vector3(_disSelected.x, t.localPosition.y, t.localPosition.z);
+        t.localPosition = newPos;
     }
 
     public void UnSelectSlot(StudentSlot data)
