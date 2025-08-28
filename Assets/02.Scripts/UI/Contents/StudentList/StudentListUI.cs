@@ -6,99 +6,205 @@ using UnityEngine.UI;
 
 public class StudentListUI : MonoBehaviour
 {
-    [SerializeField] int _currentChapterIndex = 0;
-    [SerializeField] int _studentIndex = 0;
-    [SerializeField] Transform _leftPageParent;
-    [SerializeField] Transform _rightPageParent;
-    [SerializeField] GameObject _slotPrefab;
+    const int pageCapacity = 8;
+    [SerializeField] int _currentChapterIndex;
+    [SerializeField] int _currentOffset;
 
-    private Dictionary<int, StudentSO> _students;
+    [Header("Slot Variable")]
+    [Space(5)]
+    [SerializeField] List<StudentSlot> _leftSlots = new List<StudentSlot>();
+    [SerializeField] List<StudentSlot> _rightSlots = new List<StudentSlot>();
+
+    [Header("Button Variable")]
+    [Space(5)]
+    [SerializeField] private Button _prevBtn;
+    [SerializeField] private Button _nextBtn;
+
+    private List<StudentSO> _students = new List<StudentSO>();
+    private List<int> _chapterList = new List<int>();
+    private Dictionary<int, List<StudentSO>> _studentsDictionary;
 
     private void Start()
     {
-        _currentChapterIndex = 0;
-        _studentIndex = 0;
+        
+    }
+
+    public void ClickTest()
+    {
         Initialize();
+        UpdatePages();
     }
 
     private void Initialize()
     {
-        int start = 0;
+        _currentChapterIndex = 0;
+        _currentOffset = 0;
+
         foreach (var student in DataManager.Instance.Students)
         {
-            _students.Add(start, student.Value);
-            start++;
+            _students.Add(student.Value);
         }
 
-        UpdatePages();
+        _studentsDictionary = _students.GroupBy(student => student.chapterIndex)
+            .ToDictionary(group => group.Key, group => group.OrderBy(student => student.label).ToList());
+    
+        _chapterList = _studentsDictionary.Keys.OrderBy(key => key).ToList();
+    }
+
+    private void ClearAll()
+    {
+        for(int i=0; i<4; i++)
+        {
+            _leftSlots[i].gameObject.SetActive(false);
+            _rightSlots[i].gameObject.SetActive(false);
+        }
     }
 
     private void UpdatePages()
     {
-        // #1 페이지 내의 슬롯을 모두 제거
-        ClearPage(_leftPageParent);
-        ClearPage(_rightPageParent);
+        var list = _studentsDictionary.ContainsKey(_currentChapterIndex) ? _studentsDictionary[_currentChapterIndex] : null;
 
-        // #2 현재 챕터 인덱스와 동일한 인덱스를 갖고 있는 학생들을 최대 4명까지 넣는다.
-        // 만약 4명까지 존재하지 않는다면 오른쪽 페이지를 체크하지 않고 바로 리턴한다.
-        // 4명까지 존재한다면 리턴하지 않고, 오른쪽 페이지도 체크한다.
-        int left;
-        for (left = 0; left < 4; left++)
+        if(list == null)
         {
-            if (_students[_studentIndex+left].chapterIndex == _currentChapterIndex)
+            // 다 비어보이게
+            ClearAll();
+            return;
+        }
+
+        for(int i=0; i< pageCapacity; i++)
+        {
+            int index = _currentOffset + i;
+            bool hasData = index < list.Count;
+
+            if(i < 4)
             {
-                GenerateSlot(_leftPageParent, _students[_studentIndex+left]);
+                // 왼쪽 페이지에 생성
+                GenerateSlot(_leftSlots[i], hasData ? list[index] : null);
             }
             else
             {
-                left--;
-                break;
+                int rightIndex = i - 4;
+                GenerateSlot(_rightSlots[rightIndex], hasData ? list[index] : null);
             }
         }
 
-        _studentIndex += left;
+        UpdateBtnState();
+    }
 
-        // 왼쪽 페이지에 4개가 모두 채워졌다면
-        if (left != 3) return;
-
-        int right;
-        for (right = 0; right < 4; right++)
+    private void GenerateSlot(StudentSlot slot, StudentSO data)
+    {
+        if(data == null)
         {
-            if (_students[_studentIndex + right].chapterIndex == _currentChapterIndex)
+            slot.gameObject.SetActive(false);
+        }
+        else
+        {
+            slot.gameObject.SetActive(true);
+            slot.SetStudentInfo(data);
+        }
+    }
+
+    public void OnClickPrevBtn()
+    {
+        // 같은 챕터를 가진 학생들이 앞에 더 있다면
+        if (_currentOffset - pageCapacity >= 0)
+        {
+            _currentOffset -= pageCapacity;
+        }
+        else
+        {
+            // 같은 챕터를 가진 학생이 없다면
+            if(_currentChapterIndex == _chapterList.First())
             {
-                GenerateSlot(_rightPageParent, _students[_studentIndex + right]);
+                // 첫번째 챕터, 첫번째 페이지라면 prev 버튼 비활성화
+                _prevBtn.interactable = false;
+                return;
             }
             else
             {
-                right--;
-                break;
+                // 이전 챕터로 이동
+                int curChapterIndex = _chapterList.IndexOf(_currentChapterIndex);
+                _currentChapterIndex = _chapterList[curChapterIndex - 1];
+
+                // 이전 챕터 학생이 몇 페이지 나오는지 계산해서 offset 결정해야 함.
+                // 이전 챕터의 총 학생 수 계산
+                int studentCount = _studentsDictionary[_currentChapterIndex].Count;
+                _currentOffset = Mathf.Max(0, ((studentCount - 1) / pageCapacity) * pageCapacity);
             }
         }
-
-        _studentIndex += right;
+        UpdatePages();
     }
 
-    private void GenerateSlot(Transform parent, StudentSO student)
+    public void OnClickNextBtn()
     {
-        GameObject instance = Instantiate(_slotPrefab, parent.transform);
-        instance.GetComponent<StudentSlot>().SetStudentInfo(student);
-    }
+        var list = _studentsDictionary[_currentChapterIndex];
 
-    private void ClearPage(Transform parent)
-    {
-        foreach (Transform child in parent)
+        // 같은 챕터를 가진 학생들이 더 남아있는지 체크
+        if (_currentOffset + pageCapacity < list.Count)
         {
-            Destroy(child.gameObject);
+            _currentOffset += pageCapacity;
+        }
+        else
+        {
+            // 마지막 챕터, 마지막 페이지라면 버튼 비활성화
+            if(_currentChapterIndex == _chapterList.Last())
+            {
+                _nextBtn.interactable = false;
+                return;
+            }
+            else
+            {
+                // 마지막 챕터가 아니라면, 다음 챕터로 이동
+                int curChapterIndex = _chapterList.IndexOf(_currentChapterIndex);
+                _currentChapterIndex = _chapterList[curChapterIndex + 1];
+                _currentOffset = 0;
+            }
+        }
+        UpdatePages();
+    }
+
+    public void OnClickChapter(int chapterIndex)
+    {
+        _currentChapterIndex = chapterIndex;
+        _currentOffset = 0;
+        UpdatePages();
+    }
+
+    public void UnSelectSlot(StudentSlot data)
+    {
+        foreach(var slot in _leftSlots)
+        {
+            if (slot == data) continue;
+            else slot.UnSelect();
+        }
+
+        foreach (var slot in _rightSlots)
+        {
+            if (slot == data) continue;
+            else slot.UnSelect();
         }
     }
 
-    private void ClickLeftPageBtn()
+    private void UpdateBtnState()
     {
+        if (_currentOffset - pageCapacity < 0 && _currentChapterIndex == _chapterList.First())
+        {
+            // 첫번째 챕터, 첫번째 페이지라면 prev 버튼 비활성화
+            _prevBtn.interactable = false;
+        }
+        else
+        {
+            _prevBtn.interactable = true;
+        }
 
-    }
-
-    private void ClickRightPageBtn()
-    {
-
+        var list = _studentsDictionary[_currentChapterIndex];
+        if (_currentOffset + pageCapacity >= list.Count && _currentChapterIndex == _chapterList.Last())
+        {
+            _nextBtn.interactable = false;
+        }
+        else
+        {
+            _nextBtn.interactable = true;
+        }
     }
 }

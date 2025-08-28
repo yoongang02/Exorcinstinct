@@ -21,3 +21,4 @@ MonoBehaviour:
   enabled: 1
   weight: 1
   sprite: Portrait/Student_003
+  chapterIndex: 1
