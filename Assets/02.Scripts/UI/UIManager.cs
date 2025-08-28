@@ -87,4 +87,13 @@ public class UIManager : MonoBehaviour
     {
         return _uiStack.Contains(ui);
     }
+
+    /// <summary>
+    /// 3d UI를 닫을 때 호출하는 함수
+    /// 캔버스 및 카메라 설정을 담당함.
+    /// </summary>
+    public void CloseTopUI3D()
+    {
+
+    }
 }
