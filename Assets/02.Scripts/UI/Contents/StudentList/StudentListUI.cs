@@ -91,6 +91,7 @@ public class StudentListUI : MonoBehaviour
             }
         }
 
+        SetChapterPosition(_currentChapterIndex);
         UpdateBtnState();
     }
 
@@ -128,7 +129,6 @@ public class StudentListUI : MonoBehaviour
                 // 이전 챕터로 이동
                 int curChapterIndex = _chapterList.IndexOf(_currentChapterIndex);
                 _currentChapterIndex = _chapterList[curChapterIndex - 1];
-                SetChapterPosition(_currentChapterIndex);
 
                 // 이전 챕터 학생이 몇 페이지 나오는지 계산해서 offset 결정해야 함.
                 // 이전 챕터의 총 학생 수 계산
@@ -161,7 +161,6 @@ public class StudentListUI : MonoBehaviour
                 // 마지막 챕터가 아니라면, 다음 챕터로 이동
                 int curChapterIndex = _chapterList.IndexOf(_currentChapterIndex);
                 _currentChapterIndex = _chapterList[curChapterIndex + 1];
-                SetChapterPosition(_currentChapterIndex);
                 _currentOffset = 0;
             }
         }

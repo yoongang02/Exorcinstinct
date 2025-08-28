@@ -23,7 +23,6 @@ public class StudentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     void Awake()
     {
         _outline.enabled = false;
-        _hoverBackground.enabled = false;
         ChangeOpacity(0f);
     }
 
@@ -68,11 +67,14 @@ public class StudentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         }
         features = features.TrimEnd(',', ' ');
         _descriptionText.text = features;
+
+        // 첫 설정이니까, 선택 효과 초기화
+        _outline.enabled = false;
+        ChangeOpacity(0);
     }
 
     private void ChangeOpacity(float value)
     {
-        _hoverBackground.enabled = true;
         float newValue = value / 255f;
         Color color = _hoverBackground.color;
         color.a = newValue;
