@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Cause_005
   m_EditorClassIdentifier: 
   id: Cause_005
-  label: "\uB3D9\uC0AC"
+  label: "\uB3C5\uADF9\uBB3C"
   enabled: 1
   weight: 1
   iconPath: CauseIcon/Cause_001
