@@ -19,6 +19,11 @@ public class RoundManager : MonoBehaviour
     public UnityAction<LocationSO> OnSetLocation;
     public UnityAction<CauseSO> OnSetCause;
 
+    private StudentSO _curStudentSO;
+    private LocationSO _curLocationSO;
+    private CauseSO _curCauseSO;
+
+
     private void Awake()
     {
         if (Instance == null)
@@ -113,5 +118,37 @@ public class RoundManager : MonoBehaviour
         };
 
         return answer;
+    }
+
+    /// <summary>
+    /// 현재 부적에 세팅되어 있는 학생, 장소, 사망 원인 정보를 리턴 받을 수 있다.
+    /// </summary>
+    /// <returns></returns>
+    public StudentSO GetStudent()
+    {
+        return _curStudentSO;
+    }
+
+    public LocationSO GetLocation()
+    {
+        return _curLocationSO;
+    }
+
+    public CauseSO GetCause()
+    {
+        return _curCauseSO;
+    }
+
+    public void SetStudentSO(StudentSO studentSO)
+    {
+        _curStudentSO = studentSO;
+    }
+    public void SetLocationSO(LocationSO locationSO)
+    {
+        _curLocationSO = locationSO;
+    }
+    public void SetCauseSO(CauseSO causeSO)
+    {
+        _curCauseSO = causeSO;
     }
 }

@@ -19,6 +19,7 @@ public class StudentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     private StudentListUI _studentListUI;
     private StudentSO _studentSO;
+    private AmuletUI _amuletUI;
 
     void Awake()
     {
@@ -29,6 +30,7 @@ public class StudentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     void Start()
     {
         _studentListUI = GetComponentInParent<StudentListUI>();
+        _amuletUI = FindAnyObjectByType<AmuletUI>();
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -68,9 +70,17 @@ public class StudentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         features = features.TrimEnd(',', ' ');
         _descriptionText.text = features;
 
-        // 첫 설정이니까, 선택 효과 초기화
-        _outline.enabled = false;
-        ChangeOpacity(0);
+        // 부적에 선택되어 있는 데이터라면, 선택 효과 활성화
+        if(RoundManager.Instance.GetStudent()?.id == studentSO.id)
+        {
+            _outline.enabled = true;
+            ChangeOpacity(_alphaValue);
+        }
+        else
+        {
+            _outline.enabled = false;
+            ChangeOpacity(0);
+        }
     }
 
     private void ChangeOpacity(float value)

@@ -39,18 +39,24 @@ public class AmuletUI : UIBase
 
     private void SetStudent(StudentSO student)
     {
+        RoundManager.Instance.SetStudentSO(student);
+
         _nameText.text = student.label;
         _portraitImage.sprite = Resources.Load<Sprite>(student.sprite);
     }
 
     private void SetLocation(LocationSO location)
     {
+        RoundManager.Instance.SetLocationSO(location);
+
         string str = $"{location.floor} {location.direction} {location.label}";
         _locationText.text = str;
     }
 
     private void SetCause(CauseSO cause)
     {
+        RoundManager.Instance.SetCauseSO(cause);
+
         _causeText.text = cause.label;
     }
 
