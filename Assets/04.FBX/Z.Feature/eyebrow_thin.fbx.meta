@@ -3,7 +3,12 @@ guid: e7aeb4f2d663d4443b87ff78154ade97
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: diffuse-1
+    second: {fileID: 2800000, guid: 8f5979e1d152ee64da74b267ec662d82, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
