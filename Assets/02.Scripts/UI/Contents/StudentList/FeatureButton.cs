@@ -24,8 +24,12 @@ public class FeatureButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     [SerializeField] private MeshRenderer _faceMeshRenderer;
     [SerializeField] private List<Material> _faceMaterials = new List<Material>(); // 0 : 디폴트 상태 , 1: 주근깨 상태
 
-    void Awake()
+    private StudentListUI _studentListUI;
+
+    void Start()
     {
+        _studentListUI = GetComponentInParent<StudentListUI>();
+
         if (_featureSO == null)
         {
             _featureLabelText.text = "없음";
@@ -103,6 +107,8 @@ public class FeatureButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         _outline.enabled = false;
         ChangeOpacity(0);
         ClearFeature();
+
+        _studentListUI.RemoveFilteredFeature(_featureSO);
     }
 
     private void Select()
@@ -110,6 +116,8 @@ public class FeatureButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         _outline.enabled = true;
         ChangeOpacity(_alphaValue);
         DecideResult();
+
+        _studentListUI.AddFilteredFeature(_featureSO);
     }
 
     private void DecideResult()

@@ -4,11 +4,16 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StudentListUI : MonoBehaviour
+public class StudentListUI : UIBase
 {
+    [Header("UI Variable")]
+    [Space(5)]
     const int pageCapacity = 8;
     [SerializeField] int _currentChapterIndex;
     [SerializeField] int _currentOffset;
+    [SerializeField] GameObject _listUI;
+    [SerializeField] GameObject _featureUI;
+    [SerializeField] Button _featureBtn;
 
     [Header("Slot Variable")]
     [Space(5)]
@@ -26,12 +31,21 @@ public class StudentListUI : MonoBehaviour
     private List<StudentSO> _students = new List<StudentSO>();
     private List<int> _chapterList = new List<int>();
     private Dictionary<int, List<StudentSO>> _studentsDictionary;
-
     private List<FeatureSO> _curSelectedFeatures = new List<FeatureSO>();
 
-    private void Start()
+    public override void OnOpen()
     {
-        
+        base.OnOpen();
+        transform.GetChild(0).gameObject.SetActive(true);
+
+        OpenListPage();
+        UpdatePages();
+    }
+
+    public override void OnClose()
+    {
+        base.OnClose();
+        transform.GetChild(0).gameObject.SetActive(false);
     }
 
     public void ClickTest()
@@ -181,11 +195,31 @@ public class StudentListUI : MonoBehaviour
     public void OnClickChapter(int chapterIndex)
     {
         if (!_chapterList.Contains(chapterIndex)) return;
+
         _currentChapterIndex = chapterIndex;
         _currentOffset = 0;
 
         SetChapterPosition(chapterIndex);
+        OpenListPage();
         UpdatePages();
+    }
+
+    public void OnClickFeature()
+    {
+        OpenFeaturePage();
+
+        // 특징 포스트잇 선택 효과
+        Transform t = _featureBtn.GetComponent<Transform>();
+        Vector3 newPos = new Vector3(_selected.x, t.localPosition.y, t.localPosition.z);
+        t.localPosition = newPos;
+
+        for (int i = 0; i < _chapters.Count; i++)
+        {
+            OnChapterDisSelected(i);
+        }
+
+        _currentChapterIndex = 0;
+        _currentOffset = 0;
     }
 
     private void SetChapterPosition(int chapterIndex)
@@ -201,6 +235,11 @@ public class StudentListUI : MonoBehaviour
                 OnChapterDisSelected(i);
             }
         }
+
+        // 특징 버튼도 제자리로
+        Transform t = _featureBtn.GetComponent<Transform>();
+        Vector3 newPos = new Vector3(_disSelected.x, t.localPosition.y, t.localPosition.z);
+        t.localPosition = newPos;
     }
 
     private void OnChapterSelected(int chapterIndex)
@@ -291,5 +330,32 @@ public class StudentListUI : MonoBehaviour
         }
 
         return _filteredBuffer;
+    }
+
+    public void AddFilteredFeature(FeatureSO featureSO)
+    {
+        _curSelectedFeatures.Add(featureSO);
+    }
+    public void RemoveFilteredFeature(FeatureSO featureSO)
+    {
+        _curSelectedFeatures.Remove(featureSO);
+    }
+
+    private void OpenFeaturePage()
+    {
+        _featureUI.SetActive(true);
+        _listUI.SetActive(false);
+
+        _prevBtn.interactable = false;
+        _nextBtn.interactable = false;
+    }
+
+    private void OpenListPage()
+    {
+        _listUI.SetActive(true);
+        _featureUI.SetActive(false);
+
+        _prevBtn.interactable = true;
+        _nextBtn.interactable = false;
     }
 }
