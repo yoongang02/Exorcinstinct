@@ -13,8 +13,8 @@ TagManager:
   - UI
   - UI3D
   - Arm
-  - 
-  - 
+  - StencilTarget
+  - StencilMask
   - 
   - 
   - 
