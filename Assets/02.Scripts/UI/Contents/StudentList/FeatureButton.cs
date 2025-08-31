@@ -6,7 +6,6 @@ using TMPro;
 
 public class FeatureButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    [SerializeField] private bool _isDefault = false;
     [SerializeField] private bool _isNone = false;
     [SerializeField] private FeatureSO _featureSO;
     [SerializeField] private GameObject _featureObject;
@@ -36,14 +35,7 @@ public class FeatureButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             _featureLabelText.text = _featureSO.label;
         }
 
-        if (_isDefault)
-        {
-            Select();
-        }
-        else
-        {
-            Unselect();
-        }
+        Unselect();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -58,7 +50,9 @@ public class FeatureButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Select();
+        if(_outline.enabled) Unselect();
+        else Select();
+
     }
 
     private void ChangeOpacity(float value)
