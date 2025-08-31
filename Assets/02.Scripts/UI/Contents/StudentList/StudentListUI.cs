@@ -27,6 +27,8 @@ public class StudentListUI : MonoBehaviour
     private List<int> _chapterList = new List<int>();
     private Dictionary<int, List<StudentSO>> _studentsDictionary;
 
+    private List<FeatureSO> _curSelectedFeatures = new List<FeatureSO>();
+
     private void Start()
     {
         
@@ -65,9 +67,15 @@ public class StudentListUI : MonoBehaviour
 
     private void UpdatePages()
     {
-        var list = _studentsDictionary.ContainsKey(_currentChapterIndex) ? _studentsDictionary[_currentChapterIndex] : null;
+        var list = GetFilteredList(_currentChapterIndex);
 
-        if(list == null)
+        // 필터된 리스트에 따라 offset 도 조정
+        if(_currentOffset >= list.Count)
+        {
+            _currentOffset = Mathf.Max(0, ((list.Count - 1) / pageCapacity) * pageCapacity);
+        }
+
+        if(list.Count == 0)
         {
             // 다 비어보이게
             ClearAll();
@@ -110,6 +118,8 @@ public class StudentListUI : MonoBehaviour
 
     public void OnClickPrevBtn()
     {
+        var list = GetFilteredList(_currentChapterIndex);
+
         // 같은 챕터를 가진 학생들이 앞에 더 있다면
         if (_currentOffset - pageCapacity >= 0)
         {
@@ -132,7 +142,8 @@ public class StudentListUI : MonoBehaviour
 
                 // 이전 챕터 학생이 몇 페이지 나오는지 계산해서 offset 결정해야 함.
                 // 이전 챕터의 총 학생 수 계산
-                int studentCount = _studentsDictionary[_currentChapterIndex].Count;
+                var prevList = GetFilteredList(_currentChapterIndex);
+                int studentCount = prevList.Count;
                 _currentOffset = Mathf.Max(0, ((studentCount - 1) / pageCapacity) * pageCapacity);
             }
         }
@@ -141,7 +152,7 @@ public class StudentListUI : MonoBehaviour
 
     public void OnClickNextBtn()
     {
-        var list = _studentsDictionary[_currentChapterIndex];
+        var list = GetFilteredList (_currentChapterIndex);
 
         // 같은 챕터를 가진 학생들이 더 남아있는지 체크
         if (_currentOffset + pageCapacity < list.Count)
@@ -233,7 +244,7 @@ public class StudentListUI : MonoBehaviour
             _prevBtn.interactable = true;
         }
 
-        var list = _studentsDictionary[_currentChapterIndex];
+        var list = GetFilteredList(_currentChapterIndex);
         if (_currentOffset + pageCapacity >= list.Count && _currentChapterIndex == _chapterList.Last())
         {
             _nextBtn.interactable = false;
@@ -242,5 +253,43 @@ public class StudentListUI : MonoBehaviour
         {
             _nextBtn.interactable = true;
         }
+    }
+
+    private readonly HashSet<FeatureSO> _studentFeatures = new HashSet<FeatureSO>();
+    private bool HasAllSelectedFeatures(StudentSO studentSO)
+    {
+        if (_curSelectedFeatures == null || _curSelectedFeatures.Count == 0) return true;
+
+        var set = _studentFeatures;
+        set.Clear();
+
+        // 학생이 갖고 있는 특징들을 모두 저장
+        foreach(var feature in studentSO.features)
+        {
+            set.Add(feature);
+        }
+
+        // 학생이 갖고 있는 특징과 현재 특징 페이지에서 선택된 특징들 비교
+        // 하나라도 다르면 false 리턴. 즉, and 조건임
+        foreach (var need in _curSelectedFeatures) {
+            if (!set.Contains(need)) return false;
+        }
+
+        return true;
+    }
+
+    private readonly List<StudentSO> _filteredBuffer = new List<StudentSO>();
+    private List<StudentSO> GetFilteredList(int chapterIndex)
+    {
+        if (!_studentsDictionary.TryGetValue(chapterIndex, out var list) || list == null)
+            return new List<StudentSO>();
+
+        _filteredBuffer.Clear();
+        foreach (var student in list)
+        {
+            if (HasAllSelectedFeatures(student)) _filteredBuffer.Add(student);
+        }
+
+        return _filteredBuffer;
     }
 }
