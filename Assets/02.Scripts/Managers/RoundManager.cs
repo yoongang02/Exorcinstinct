@@ -151,4 +151,9 @@ public class RoundManager : MonoBehaviour
     {
         _curCauseSO = causeSO;
     }
+
+    public Answer GetCurrentAnswer()
+    {
+        return _currentAnswer;
+    }
 }
