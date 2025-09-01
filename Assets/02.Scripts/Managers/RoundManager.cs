@@ -23,6 +23,10 @@ public class RoundManager : MonoBehaviour
     private LocationSO _curLocationSO;
     private CauseSO _curCauseSO;
 
+    [Header("Candle Variable")]
+    [Space(5)]
+    [SerializeField] private List<CandleController> _candles = new List<CandleController>();
+
 
     private void Awake()
     {
