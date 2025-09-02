@@ -8,4 +8,5 @@ public class CauseSO : ScriptableObject
     public bool enabled = true;
     public int weight = 1;
     public string iconPath = "CauseIcon/Cause_NNN";
+    public string onomatopoeia;
 }

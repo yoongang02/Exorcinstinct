@@ -235,6 +235,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4964915666262348567, guid: 03fe2da1a23916248afbb2ade72122ae, type: 3}
+      propertyPath: m_Volume
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 5026051156802519721, guid: 03fe2da1a23916248afbb2ade72122ae, type: 3}
       propertyPath: m_IsActive
       value: 1

@@ -49,7 +49,7 @@ public class AmuletUI : UIBase
     {
         RoundManager.Instance.SetLocationSO(location);
 
-        string str = $"{location.floor} {location.direction} {location.label}";
+        string str = $"{location.floor} {location.wing} {location.label}";
         _locationText.text = str;
     }
 
