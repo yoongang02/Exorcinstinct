@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Windows;
 
-public class MemoUI : UIBase
+public class MemoUI : MonoBehaviour
 {
     [SerializeField] private TMP_InputField _leftTextField;
     [SerializeField] private TMP_InputField _rightTextField;
@@ -19,10 +19,16 @@ public class MemoUI : UIBase
 
     private List<string> _memoPages = new List<string>();
     private int _currentPageIndex = 0;
+    private bool _isOpen = false;
 
-    public override void OnOpen()
+    public void OnOpen()
     {
-        base.OnOpen();
+        _isOpen = true;
+
+        // 카메라 고정 및 커서 고정 해제
+        CameraController.Instance.LockCamera();
+        CameraController.Instance.SetCursorFree();
+
 
         // 메모장 아이콘 변경
         _memoNoteIcon.sprite = _memoNoteSprites[1];
@@ -47,9 +53,13 @@ public class MemoUI : UIBase
         FocusAtEnd();
     }
 
-    public override void OnClose()
+    public void OnClose()
     {
-        base.OnClose();
+        _isOpen = false;
+
+        // 카메라 고정 해제
+        if(!UIManager.Instance.IsAnyUIOpen())
+            CameraController.Instance.UnLockCamera();
 
         // 메모장 아이콘 변경
         _memoNoteIcon.sprite = _memoNoteSprites[0];
@@ -81,16 +91,14 @@ public class MemoUI : UIBase
         inputField.caretPosition = inputField.stringPosition = end;
     }
 
-    public override void HandleKeyboardInput()
+    public void HandleKeyboardInput()
     {
-        base.HandleKeyboardInput();
-
         // 메모 작성 중이면, 메모장 닫기 무시
         if (_leftTextField.isFocused || _rightTextField.isFocused) return;
 
         if (InputRouter.Instance.ConsumeE())
         {
-            UIManager.Instance.CloseTopUI();
+            this.OnClose();
         }
     }
 
@@ -179,5 +187,10 @@ public class MemoUI : UIBase
     {
         _memoPages[_currentPageIndex] = _leftTextField.text;
         _memoPages[_currentPageIndex + 1] = _rightTextField.text;
+    }
+
+    public bool IsMemoOpen()
+    {
+        return _isOpen;
     }
 }

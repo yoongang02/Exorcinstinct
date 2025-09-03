@@ -32,10 +32,18 @@ public class StudentListUI : UIBase
     private List<int> _chapterList = new List<int>();
     private Dictionary<int, List<StudentSO>> _studentsDictionary;
     private List<FeatureSO> _curSelectedFeatures = new List<FeatureSO>();
+    private bool _isInit = false;
 
     public override void OnOpen()
     {
         base.OnOpen();
+
+        if (!_isInit)
+        {
+            _isInit = true;
+            Initialize();
+        }
+
         transform.GetChild(0).gameObject.SetActive(true);
 
         OpenListPage();
@@ -46,12 +54,6 @@ public class StudentListUI : UIBase
     {
         base.OnClose();
         transform.GetChild(0).gameObject.SetActive(false);
-    }
-
-    public void ClickTest()
-    {
-        Initialize();
-        UpdatePages();
     }
 
     private void Initialize()
@@ -220,6 +222,11 @@ public class StudentListUI : UIBase
 
         _currentChapterIndex = 0;
         _currentOffset = 0;
+    }
+
+    public void OnClickEscapeBtn()
+    {
+        UIManager.Instance.CloseTopUI3D();
     }
 
     private void SetChapterPosition(int chapterIndex)

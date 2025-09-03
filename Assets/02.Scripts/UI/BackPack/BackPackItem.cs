@@ -13,11 +13,18 @@ public class BackPackItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     private Canvas _toolTipCanvas;
     private RectTransform _toolTipRectTransform;
 
-    private void Awake()
+    void Awake()
     {
         _outline = GetComponent<Outline>();
+    }
+    private void OnEnable()
+    {
         _outline.enabled = false;
+        _toolTip.gameObject.SetActive(false);
+    }
 
+    void Start()
+    {
         _toolTipCanvas = GetComponentInParent<Canvas>();
         _toolTipRectTransform = _toolTipCanvas.GetComponent<RectTransform>();
     }
@@ -77,6 +84,7 @@ public class BackPackItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     /// <param name="eventData"></param>
     public void OnPointerEnter(PointerEventData eventData)
     {
+        Debug.Log($"{gameObject.name} 포인터 인");
         // 아웃라인 효과 활성화
         _outline.enabled = true;
         ShowToolTip();

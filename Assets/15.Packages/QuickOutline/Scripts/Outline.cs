@@ -191,6 +191,8 @@ public class Outline : MonoBehaviour {
       var index = bakeKeys.IndexOf(meshFilter.sharedMesh);
       var smoothNormals = (index >= 0) ? bakeValues[index].data : SmoothNormals(meshFilter.sharedMesh);
 
+      MeshDebug.PrintMeshInfo(this.gameObject);
+
       // Store smooth normals in UV3
       meshFilter.sharedMesh.SetUVs(3, smoothNormals);
 

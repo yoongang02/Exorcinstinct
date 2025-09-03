@@ -107,4 +107,9 @@ public class AmuletUI : UIBase
     {
         return !string.IsNullOrEmpty(_causeText.text);
     }
+
+    public void OnClickEscapeBtn()
+    {
+        UIManager.Instance.CloseTopUI3D();
+    }
 }

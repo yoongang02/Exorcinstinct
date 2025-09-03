@@ -79,6 +79,18 @@ public class StudentImporter : EditorWindow
                 }
             }
 
+            // ChapterIndex 처리 (마지막 열)
+            int chapterIndex = 0;
+            if (values.Length > 2)
+            {
+                string chapterStr = values[values.Length - 1].Trim();
+                if (!string.IsNullOrEmpty(chapterStr) && int.TryParse(chapterStr, out int parsed))
+                {
+                    chapterIndex = parsed;
+                }
+            }
+            student.chapterIndex = chapterIndex;
+
             // 에셋 저장
             string assetPath = $"{studentSavePath}/{id}.asset";
             AssetDatabase.CreateAsset(student, assetPath);

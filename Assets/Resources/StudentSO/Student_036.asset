@@ -20,7 +20,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3c6911c986be04aa8ab08b036f6bb6eb, type: 2}
   - {fileID: 11400000, guid: e74d613551682254091bfe845b142b87, type: 2}
   - {fileID: 11400000, guid: b4d088891d26a8d4a93f76a355c80c1e, type: 2}
+  - {fileID: 11400000, guid: 81c9d42a1aa914e73be0243b316aebe9, type: 2}
   enabled: 1
   weight: 1
   sprite: Portrait/Student_036
-  chapterIndex: 0
+  chapterIndex: 2
