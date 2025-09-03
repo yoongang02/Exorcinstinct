@@ -26,6 +26,9 @@ public class InputRouter : MonoBehaviour
     public bool PressedEnter { get; private set; }
     private bool ConsumedEnter;
 
+    public bool PressedV {  get; private set; }
+    private bool ConsumedV;
+
     void Update()
     {
         PressedE = Input.GetKeyDown(KeyCode.E);
@@ -36,6 +39,9 @@ public class InputRouter : MonoBehaviour
 
         PressedEnter = Input.GetKeyDown(KeyCode.Return);
         ConsumedEnter = false;
+
+        PressedV = Input.GetKeyDown(KeyCode.V);
+        ConsumedV = false;
     }
 
     public bool ConsumeE()
@@ -65,6 +71,17 @@ public class InputRouter : MonoBehaviour
             ConsumedEnter = true;
             return true;
         }
+        return false;
+    }
+
+    public bool ConsumeV()
+    {
+        if(PressedV && !ConsumedV)
+        {
+            ConsumedV=true;
+            return true;
+        }
+
         return false;
     }
 }

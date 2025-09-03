@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
+using System.Threading;
 
 namespace Samples.Whisper
 {
@@ -11,6 +12,8 @@ namespace Samples.Whisper
 
         [Header("UI")]
         [SerializeField] private Button _recordButton;
+        [SerializeField] private Image _progressImage;
+        private CancellationTokenSource _progressCts;
 
         [Header("Record Settings")]
         [SerializeField] private int _durationSeconds = 5;
@@ -56,7 +59,25 @@ namespace Samples.Whisper
             _recordButton.interactable = false;
             _audioClip = Microphone.Start(device, false, _durationSeconds, _sampleRate);
 
+            // 녹음 진행 바 시작
+            _progressCts?.Cancel();
+            _progressCts = new CancellationTokenSource();
+            _progressImage.fillAmount = 0f;
+            FillProgress(_durationSeconds, _progressCts.Token).Forget();
             EndAfter(_durationSeconds).Forget();
+        }
+
+        private async UniTaskVoid FillProgress(int seconds, CancellationToken ct)
+        {
+            float t = 0f;
+            while (t < seconds) {
+                if(ct.IsCancellationRequested) return;
+                await UniTask.Yield(PlayerLoopTiming.Update, ct);
+                t += Time.unscaledDeltaTime;
+                _progressImage.fillAmount = Mathf.Clamp01(t / seconds);
+            }
+
+            _progressImage.fillAmount = 1f;
         }
 
         public void StartRecordingTranslator()
