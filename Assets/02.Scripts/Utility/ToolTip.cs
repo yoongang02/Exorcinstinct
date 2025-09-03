@@ -12,6 +12,7 @@ public class ToolTip : MonoBehaviour
     [Header("ToolTip Map Settings")]
     [Space(5)]
     [SerializeField] private bool _isMapInfo = false; // true면 MapInfoSO, false면 ObjectInfoSO
+    [SerializeField] private bool _isCauseInfo = false;
     [SerializeField] private GameObject _causeSlotPrefab; // MapInfoSO의 툴팁에 원인 슬롯이 있을 때 사용할 프리팹
 
     [Header("ToolTip Info")]
@@ -21,6 +22,7 @@ public class ToolTip : MonoBehaviour
     [Header("ToolTip UI")]
     [Space(5)]
     [SerializeField] private GameObject _toolTip;
+    [SerializeField] private GameObject _toolTipCause;
     [SerializeField] private Vector2 _offset = new Vector2(0f, -100f); // 커서와 툴팁 사이의 간격
 
     private Canvas _toolTipCanvas;
@@ -34,7 +36,17 @@ public class ToolTip : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (_toolTip.activeSelf)
+        if(_isCauseInfo && _toolTipCause.activeSelf)
+        {
+            if (_isLeft)
+                CalculateMousePositionLeft();
+            else
+                CalculateMousePositionRight();
+
+            return;
+        }
+
+        if (!_isCauseInfo && _toolTip.activeSelf)
         {
             if(_isLeft)
                 CalculateMousePositionLeft();
@@ -58,11 +70,16 @@ public class ToolTip : MonoBehaviour
     public void ShowToolTip(LocationSO location, CauseSO cause)
     {
         SetToolTipText(location, cause);
-        _toolTip.SetActive(true);
+        _toolTipCause.SetActive(true);
     }
 
     public void HideToolTip()
     {
+        if (_isCauseInfo)
+        {
+            _toolTipCause.SetActive(false);
+            return;
+        }
         _toolTip.SetActive(false);
     }
 
@@ -111,57 +128,17 @@ public class ToolTip : MonoBehaviour
             // cause 아이콘 설정
             GameObject causeIcon = slot.transform.GetChild(0).gameObject;
             Image iconImage = causeIcon.GetComponent<Image>();
-
-            // 아웃라인 비활성화
-            iconImage.enabled = false;
-
-            Image innerIcon = causeIcon.GetComponentInChildren<Image>();
-            innerIcon.sprite = Resources.Load<Sprite>(causeSO.iconPath);
+            iconImage.sprite = Resources.Load<Sprite>(causeSO.iconPath);
         }
     }
 
         public void SetToolTipText(LocationSO location, CauseSO cause)
     {
         // location의 label 정보를 툴팁 타이틀로 설정
-        TextMeshProUGUI name = _toolTip.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        name.text = location.label;
-
-        // location의 causes 내의 causeSO 개수만큼 툴팁에 슬롯 생성
-        Transform slotParent = _toolTip.transform.GetChild(1);
-
-        // 기존 슬롯 제거
-        foreach (Transform child in slotParent)
-        {
-            Destroy(child.gameObject);
-        }
-
-        // 신규 슬롯 생성
-        foreach (var causeSO in location.causes)
-        {
-            GameObject slot = Instantiate(_causeSlotPrefab, slotParent);
-
-            // cause 이름 설정
-            TextMeshProUGUI slotText = slot.GetComponentInChildren<TextMeshProUGUI>();
-            slotText.text = causeSO.label;
-
-            // cause 아이콘 설정, 아웃라인 활성화
-            GameObject causeIcon = slot.transform.GetChild(0).gameObject;
-            Image iconImage = causeIcon.GetComponent<Image>();
-
-
-            if (cause == causeSO)
-            {
-                // 아웃라인 활성화
-                iconImage.enabled = true;
-            }
-            else
-            {
-                // 아웃라인 비활성화
-                iconImage.enabled = false;
-            }
-            Image innerIcon = causeIcon.GetComponentInChildren<Image>();
-            innerIcon.sprite = Resources.Load<Sprite>(causeSO.iconPath);
-        }
+        Image icon = _toolTipCause.transform.GetChild(0).GetComponent<Image>();
+        icon.sprite = Resources.Load<Sprite>(cause.iconPath);
+        TextMeshProUGUI name = _toolTipCause.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        name.text = cause.label;
     }
 
     /// <summary>
@@ -177,10 +154,18 @@ public class ToolTip : MonoBehaviour
             _toolTipRectTransform, mousePos, _toolTipCanvas.worldCamera, out localPos);
 
         // 툴팁 RectTransform
-        RectTransform rt = _toolTip.transform as RectTransform;
+        RectTransform rt;
+        if (_isCauseInfo)
+        {
+            rt = _toolTipCause.transform as RectTransform;
+        }
+        else
+        {
+            rt = _toolTip.transform as RectTransform;
+        }
 
-        // 피벗을 (1,0.5)로 설정 (오른쪽 중앙)
-        rt.pivot = new Vector2(1f, 0.5f);
+            // 피벗을 (1,0.5)로 설정 (오른쪽 중앙)
+            rt.pivot = new Vector2(1f, 0.5f);
 
         // 위치 지정
         rt.anchoredPosition = localPos + _offset;
@@ -199,7 +184,15 @@ public class ToolTip : MonoBehaviour
             _toolTipRectTransform, mousePos, _toolTipCanvas.worldCamera, out localPos);
 
         // 툴팁 RectTransform
-        RectTransform rt = _toolTip.transform as RectTransform;
+        RectTransform rt;
+        if (_isCauseInfo)
+        {
+            rt = _toolTipCause.transform as RectTransform;
+        }
+        else
+        {
+            rt = _toolTip.transform as RectTransform;
+        }
 
         // 피벗을 (0,0.5)로 설정 (왼쪽 중앙)
         rt.pivot = new Vector2(0f, 0.5f);

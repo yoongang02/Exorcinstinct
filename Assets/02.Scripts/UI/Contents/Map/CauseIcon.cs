@@ -18,7 +18,7 @@ public class CauseIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     void Start()
     {
         _mapZone = GetComponentInParent<MapZone>();
-        _toolTip = GetComponentInParent<ToolTip>();
+        _toolTip = GetComponent<ToolTip>();
         SetOutline(false);
     }
 
@@ -33,6 +33,8 @@ public class CauseIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     {
         SetOutline(true);
         _toolTip.ShowToolTip(_mapZone.GetLocationSO(), _causeSO);
+        ToolTip parentToolTip = transform.parent.GetComponent<ToolTip>();
+        parentToolTip.HideToolTip();
     }
 
     public void OnPointerExit(PointerEventData eventData)

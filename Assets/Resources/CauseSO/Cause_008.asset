@@ -16,5 +16,5 @@ MonoBehaviour:
   label: "\uC9C8\uC2DD"
   enabled: 1
   weight: 1
-  iconPath: CauseIcon/Cause_001
+  iconPath: CauseIcon/Cause_008
   onomatopoeia: "\uC228\uB9C9\uD600"
