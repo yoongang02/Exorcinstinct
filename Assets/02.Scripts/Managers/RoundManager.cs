@@ -1,4 +1,5 @@
 ﻿using OpenAI;
+using Samples.Whisper;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -159,5 +160,34 @@ public class RoundManager : MonoBehaviour
     public Answer GetCurrentAnswer()
     {
         return _currentAnswer;
+    }
+
+    /// <summary>
+    /// 현재 남은 촛불 개수에 따라 촛불을 끔.
+    /// </summary>
+    public void BlowOutCandle()
+    {
+        GameManager GM = GameManager.Instance;
+        int index = GM.GetMaxQuestionCnt() - GM.GetCurQuestionCnt();
+
+        if (index < 0 || index >= GM.GetMaxQuestionCnt()) Debug.LogError($"촛불 개수에 오류가 있음");
+
+        _candles[index].LightOff(); // 촛불 불 끄기
+        GM.DecreaseQuestionCnt(); // 질문 개수 줄이기
+        WhisperManager.Instance.EndResponse();
+    }
+
+    /// <summary>
+    /// 현재 남은 촛불 개수에 따라 촛불 불을 킴.
+    /// </summary>
+    public void LightCandle()
+    {
+        GameManager GM = GameManager.Instance;
+        int index = GM.GetMaxQuestionCnt() - GM.GetCurQuestionCnt() - 1;
+
+        if (index < 0 || index >= GM.GetMaxQuestionCnt()) Debug.LogError($"촛불 개수에 오류가 있음");
+
+        _candles[index].LightOn(); // 촛불 불 켜기
+        GM.IncreaseQuestionCnt(); // 질문 개수 늘리기
     }
 }

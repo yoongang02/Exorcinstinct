@@ -3,15 +3,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 using System.Threading;
+using UnityEngine.Events;
 
 namespace Samples.Whisper
 {
     public class WhisperManager : MonoBehaviour
     {
         public static WhisperManager Instance { get; private set; }
+        public bool canRecord = true;
 
         [Header("UI")]
-        [SerializeField] private Button _recordButton;
         [SerializeField] private Image _progressImage;
         private CancellationTokenSource _progressCts;
 
@@ -27,6 +28,13 @@ namespace Samples.Whisper
         private AudioClip _audioClip;
         private bool _isRecording = false;
         private string _outputText;
+        private bool _useTranslator = false; // 번역기 아이템 사용하는지
+
+        // 질문 응답에 대한 액션
+        public UnityAction WhenAnswerO;
+        public UnityAction WhenAnswerX;
+        public UnityAction WhenAnswerError;
+        public UnityAction WhenStartAsk;
 
         private void Awake()
         {
@@ -45,6 +53,7 @@ namespace Samples.Whisper
         {
             if (_isRecording) return;
             _isRecording = true;
+            canRecord = false;
 
             // #1 마이크 선택 없이, 첫번째 마이크 사용
             string device = Microphone.devices.Length > 0 ? Microphone.devices[0] : null;
@@ -56,8 +65,10 @@ namespace Samples.Whisper
                 return;
             }
 
-            _recordButton.interactable = false;
             _audioClip = Microphone.Start(device, false, _durationSeconds, _sampleRate);
+
+            // 플레이어 손 위치 초기화
+            WhenStartAsk?.Invoke();
 
             // 녹음 진행 바 시작
             _progressCts?.Cancel();
@@ -80,37 +91,10 @@ namespace Samples.Whisper
             _progressImage.fillAmount = 1f;
         }
 
-        public void StartRecordingTranslator()
-        {
-            if (_isRecording) return;
-            _isRecording = true;
-
-            // #1 마이크 선택 없이, 첫번째 마이크 사용
-            string device = Microphone.devices.Length > 0 ? Microphone.devices[0] : null;
-
-            if (string.IsNullOrEmpty(device))
-            {
-                Debug.LogError("마이크를 찾을 수 없음.");
-                _isRecording = false;
-                return;
-            }
-
-            _recordButton.interactable = false;
-            _audioClip = Microphone.Start(device, false, _durationSeconds, _sampleRate);
-
-            EndAfterTranslator(_durationSeconds).Forget();
-        }
-
         private async UniTaskVoid EndAfter(int seconds)
         {
             await UniTask.Delay(seconds * 1000);
             await EndRecording();
-        }
-
-        private async UniTaskVoid EndAfterTranslator(int seconds)
-        {
-            await UniTask.Delay(seconds * 1000);
-            await EndRecordingTranslator();
         }
 
         private async UniTask EndRecording()
@@ -121,7 +105,6 @@ namespace Samples.Whisper
             if (_audioClip == null)
             {
                 Debug.LogError("녹음된 오디오 파일이 없습니다.");
-                _recordButton.interactable = true;
                 return;
             }
 
@@ -147,60 +130,39 @@ namespace Samples.Whisper
 
                 if (jundgement == "판단 불가")
                 {
-                    
+                    WhenAnswerError?.Invoke();
                 }
                 else
                 {
-                    // 0, X 판단 가능
+                    if (jundgement == "O") WhenAnswerO?.Invoke();
+                    else if(jundgement == "X") WhenAnswerX?.Invoke();
+                    
+
+                    if (_useTranslator)
+                    {
+                        string hintMessage = await HintManager.Instance.ResondToPlayer(res.Text);
+                        Debug.Log(hintMessage);
+
+                        ElevenlabsAPI.Instance.GetAudio(hintMessage);
+                    }
                 }
-                    _recordButton.interactable = true;
             }
         }
 
-        private async UniTask EndRecordingTranslator()
+        /// <summary>
+        /// 번역기를 사용 상태를 제어하는 함수
+        /// 번역기 아이템에서 호출함.
+        /// </summary>
+        /// <param name="value"></param>
+        public void SetTranslator(bool value)
         {
-            Microphone.End(null);
-            _isRecording = false;
+            _useTranslator = value;
+        }
 
-            if (_audioClip == null)
-            {
-                Debug.LogError("녹음된 오디오 파일이 없습니다.");
-                _recordButton.interactable = true;
-                return;
-            }
-
-            byte[] wav = SaveWav.Save("output.wav", _audioClip);
-            var req = new CreateAudioTranscriptionsRequest
-            {
-                FileData = new FileData() { Data = wav, Name = "audio.wav" },
-                Model = _model,
-                Language = _language,
-            };
-
-            var res = await _openai.CreateAudioTranscription(req);
-
-            _outputText = res.Text;
-
-            Debug.Log($"녹음 완료. 텍스트: {_outputText}");
-
-            // 변환한 질문 텍스트를 HintManager에 전달해서 응답 받기
-            if (!string.IsNullOrWhiteSpace(res.Text))
-            {
-                string jundgement = await GptManager.Instance.RespondToPlayer(res.Text);
-                Debug.Log($"GPTManager 응답: {jundgement}");
-                if (jundgement != "판단 불가")
-                {
-                    string hintMessage = await HintManager.Instance.ResondToPlayer(res.Text);
-                    Debug.Log(hintMessage);
-
-                    ElevenlabsAPI.Instance.GetAudio(hintMessage);
-                }
-                else
-                {
-                    
-                }
-                _recordButton.interactable = true;
-            }
+        public void EndResponse()
+        {
+            canRecord = true;
+            _progressImage.fillAmount = 0f;
         }
     }
 }

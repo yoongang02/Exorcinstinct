@@ -39,7 +39,7 @@ public class UIManager : MonoBehaviour
 
             // ToDo : 메모장이랑 가방이 열려있는 것은 가능. 예외처리 진행해야 함.
             // ToDo : 번역기를 사용하는 경우도 체크해서 분기 나눠야 함.
-            if (InputRouter.Instance.ConsumeV())
+            if (InputRouter.Instance.ConsumeV() && WhisperManager.Instance.canRecord)
             {
                 WhisperManager.Instance.StartRecording();
             }
