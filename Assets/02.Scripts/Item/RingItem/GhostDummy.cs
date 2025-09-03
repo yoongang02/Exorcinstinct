@@ -10,32 +10,33 @@ public class GhostDummy : MonoBehaviour
 
 
     // 현재 라운드 정답에 따라, 더미를 정답 귀신과 동일한 모습으로 세팅하는 함수
-    public void SetDummy()
+    public void SetDummy(Answer answer)
     {
-        Answer answer = RoundManager.Instance.GetCurrentAnswer();
-        StudentSO studentSO = answer.studentSO;
+        var studentSO = answer.studentSO;
 
-        foreach(var feature in studentSO.features)
+        // 1) 학생이 가진 feature id 집합
+        var owned = new HashSet<string>();
+        foreach (var f in studentSO.features)
+            owned.Add(f.id);
+
+        // 2) 주근깨 여부
+        bool hasFreckles = owned.Contains("Feature_014");
+
+        // 3) 더미 전체 활성/비활성 (주근깨는 더미가 아니라 얼굴 머티리얼로 처리)
+        foreach (var dummy in _dummyFeatuers)
         {
-            foreach(DummyFeature dummy in _dummyFeatuers)
-            {
-                if (dummy.featureSO.id == feature.id)
-                {
-                    dummy.gameObject.SetActive(true);
-                    break;
-                }
-                
-                dummy.gameObject.SetActive(false);
-            }
+            if (dummy == null || dummy.featureSO == null) continue;
 
-            if(feature.id == "Feature_014")
-            {
-                _faceMeshRenderer.material = _faceMaterials[1];
-            }
-            else
-            {
-                _faceMeshRenderer.material = _faceMaterials[0];
-            }
+            bool active =
+                dummy.featureSO.id != "Feature_014" && // 주근깨는 여기서 처리 X
+                owned.Contains(dummy.featureSO.id);
+
+            dummy.gameObject.SetActive(active);
         }
+
+        // 4) 얼굴 머티리얼은 마지막에 한 번만
+        _faceMeshRenderer.material = _faceMaterials[hasFreckles ? 1 : 0];
+
+        Debug.Log("더미 설정 완료");
     }
 }

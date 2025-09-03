@@ -18,11 +18,22 @@ public class UIManager : MonoBehaviour
     public UIBase mapUI;
     public UIBase studentListUI;
 
+    [Header("아이템 UI 목록")]
+    [Space(5)]
+    public UIBase ringItemUI;
+    public UIBase matchItemUI;
+
+
     [Header("3D 콘텐츠 UI 세팅")]
     [Space(5)]
     [SerializeField] private GameObject _canvasUI2D;
     [SerializeField] private Camera _mainCamera;
     private bool _isUI3DOpen = false;
+
+    [Header("옥반지 아이템 UI 세팅")]
+    [Space(5)]
+    [SerializeField] private GameObject _defaultUI;
+    [SerializeField] private GameObject _leftTopUI;
 
     private void Awake()
     {
@@ -171,5 +182,16 @@ public class UIManager : MonoBehaviour
     private void SetMainCameraPriority(int value)
     {
         _mainCamera.depth = value;
+    }
+
+    public void SetUI2DCanvas(bool value)
+    {
+        _canvasUI2D.SetActive(value);
+    }
+
+    public void SetCanvasForRing(bool value)
+    {
+        _defaultUI.SetActive(value);
+        _leftTopUI.SetActive(value);
     }
 }

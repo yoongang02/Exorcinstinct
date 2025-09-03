@@ -28,6 +28,10 @@ public class RoundManager : MonoBehaviour
     [Space(5)]
     [SerializeField] private List<CandleController> _candles = new List<CandleController>();
 
+    [Header("Ring Variable")]
+    [Space(5)]
+    [SerializeField] private GhostDummy _ghostDummy;
+
 
     private void Awake()
     {
@@ -52,6 +56,8 @@ public class RoundManager : MonoBehaviour
 
         // GPT 매니저에 정답 전달 및 시스템 프롬프트 설정
         GptManager.Instance.RoundStartSetting(_currentAnswer);
+
+        _ghostDummy.SetDummy(_currentAnswer);
     }
 
     // 라운드 시작마다, 정답을 랜덤으로 생성하는 함수

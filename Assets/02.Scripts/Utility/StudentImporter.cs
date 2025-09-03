@@ -70,7 +70,8 @@ public class StudentImporter : EditorWindow
                     FeatureSO feature = AssetDatabase.LoadAssetAtPath<FeatureSO>(featureAssetPath);
                     if (feature != null)
                     {
-                        student.features.Add(feature);
+                        if(!student.features.Contains(feature))
+                            student.features.Add(feature);
                     }
                 }
                 else

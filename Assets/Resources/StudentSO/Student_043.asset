@@ -19,7 +19,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 348084983651d4060a75c87bde93b817, type: 2}
   - {fileID: 11400000, guid: 1fc90b0ab1c19794abcfbac017dad8f4, type: 2}
   - {fileID: 11400000, guid: e226e8f169a0723409252adf0dd3b7c1, type: 2}
-  - {fileID: 11400000, guid: 81c9d42a1aa914e73be0243b316aebe9, type: 2}
   enabled: 1
   weight: 1
   sprite: Portrait/Student_043

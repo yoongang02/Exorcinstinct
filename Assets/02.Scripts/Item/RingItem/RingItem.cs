@@ -11,7 +11,7 @@ public struct DummyComposition
     public Vector3 scale;
 }
 
-public class RingItem : UIBase, IItemBase
+public class RingItem : UIBase
 {
     [Header("UI Variable")]
     [Space(5)]
@@ -31,9 +31,12 @@ public class RingItem : UIBase, IItemBase
         _escapeBtn.gameObject.SetActive(false);
 
         // 옥반지 아이템 사용 관련하여 캔버스 및 카메라 설정
+        CameraController.Instance.LockCamera();
+        CameraController.Instance.SetCursorFree();
+        UIManager.Instance.SetCanvasForRing(false);
 
         // 정답에 따라 더미 설정
-        _ghostDummy.SetDummy();
+        //_ghostDummy.SetDummy();
 
         // 랜덤 구도 설정
         SetRandomComposition();
@@ -45,14 +48,14 @@ public class RingItem : UIBase, IItemBase
     public override void OnClose()
     {
         base.OnClose();
+
+        // 옥반지 아이템 사용 관련하여 캔버스 및 카메라 설정
+        CameraController.Instance.UnLockCamera();
+        UIManager.Instance.SetCanvasForRing(true);
+
         HideDummy();
         _askWindow.SetActive(false);
         _escapeBtn.gameObject.SetActive(false);
-    }
-
-    public void UseItem()
-    {
-        Debug.Log($"{this.name} 아이템 사용");
     }
 
     public void OnClickYesBtn()
@@ -67,7 +70,8 @@ public class RingItem : UIBase, IItemBase
         UIManager.Instance.CloseTopUI();
     }
 
-    public void OnClickEscapeBtn() {
+    public void OnClickEscapeBtn()
+    {
         UIManager.Instance.CloseTopUI();
     }
 
@@ -91,10 +95,5 @@ public class RingItem : UIBase, IItemBase
         dummyT.localPosition = dummyComposition.position;
         dummyT.localRotation = Quaternion.Euler(dummyComposition.rotation);
         dummyT.localScale = dummyComposition.scale;
-    }
-
-    public void Test()
-    {
-        SetRandomComposition();
     }
 }
