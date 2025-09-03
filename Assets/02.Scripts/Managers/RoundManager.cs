@@ -207,4 +207,9 @@ public class RoundManager : MonoBehaviour
         GM.IncreaseQuestionCnt(); // 질문 개수 늘리기
         UIManager.Instance.CloseTopUI();
     }
+
+    public void CheckAnswer()
+    {
+
+    }
 }

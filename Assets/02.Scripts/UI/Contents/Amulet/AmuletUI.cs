@@ -13,6 +13,10 @@ public class AmuletUI : UIBase
     [SerializeField] private Sprite _emptySprite;
     [SerializeField] Button CheckAnswerBtn;
 
+    [Header("퇴마 UI")]
+    [Space(5)]
+    [SerializeField] private GameObject _askWindow;
+
     private void Start()
     {
         RoundManager.Instance.OnClearAmulet += ClearAll;
@@ -111,5 +115,23 @@ public class AmuletUI : UIBase
     public void OnClickEscapeBtn()
     {
         UIManager.Instance.CloseTopUI3D();
+    }
+
+    public void OnClickExorcism()
+    {
+        CheckAnswerBtn.interactable = false;
+        _askWindow.SetActive(true);
+    }
+
+    public void OnClickYesBtn()
+    {
+        RoundManager.Instance.CheckAnswer();
+        OnClickEscapeBtn();
+    }
+
+    public void OnClickNoBtn()
+    {
+        _askWindow.SetActive(false);
+        CheckAnswerBtn.interactable = true;
     }
 }
