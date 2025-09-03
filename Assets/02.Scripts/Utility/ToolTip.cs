@@ -148,6 +148,7 @@ public class ToolTip : MonoBehaviour
             GameObject causeIcon = slot.transform.GetChild(0).gameObject;
             Image iconImage = causeIcon.GetComponent<Image>();
 
+
             if (cause == causeSO)
             {
                 // 아웃라인 활성화
@@ -158,7 +159,7 @@ public class ToolTip : MonoBehaviour
                 // 아웃라인 비활성화
                 iconImage.enabled = false;
             }
-                Image innerIcon = causeIcon.GetComponentInChildren<Image>();
+            Image innerIcon = causeIcon.GetComponentInChildren<Image>();
             innerIcon.sprite = Resources.Load<Sprite>(causeSO.iconPath);
         }
     }

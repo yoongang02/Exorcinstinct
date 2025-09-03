@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 public class CauseIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [SerializeField] private CauseSO _causeSO;
+    [SerializeField] private Image _iconImage;
     private MapZone _mapZone;
     private ToolTip _toolTip;
     private Image _outline;
@@ -12,6 +13,7 @@ public class CauseIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     void Awake()
     {
         _outline = GetComponent<Image>();
+        _iconImage.sprite = Resources.Load<Sprite>(_causeSO.iconPath);
     }
     void Start()
     {
