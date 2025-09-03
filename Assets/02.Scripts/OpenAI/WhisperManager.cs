@@ -1,9 +1,11 @@
-﻿using OpenAI;
-using UnityEngine;
-using UnityEngine.UI;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
+using OpenAI;
+using System.Security.Cryptography;
 using System.Threading;
+using TMPro;
+using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace Samples.Whisper
 {
@@ -14,6 +16,7 @@ namespace Samples.Whisper
 
         [Header("UI")]
         [SerializeField] private Image _progressImage;
+        [SerializeField] private TextMeshProUGUI _recordingText;
         private CancellationTokenSource _progressCts;
 
         [Header("Record Settings")]
@@ -54,6 +57,7 @@ namespace Samples.Whisper
             if (_isRecording) return;
             _isRecording = true;
             canRecord = false;
+            _recordingText.text = "";
 
             // #1 마이크 선택 없이, 첫번째 마이크 사용
             string device = Microphone.devices.Length > 0 ? Microphone.devices[0] : null;
@@ -93,6 +97,7 @@ namespace Samples.Whisper
 
         private async UniTaskVoid EndAfter(int seconds)
         {
+            _recordingText.text = "\"...\"";
             await UniTask.Delay(seconds * 1000);
             await EndRecording();
         }
@@ -117,9 +122,10 @@ namespace Samples.Whisper
             };
 
             var res = await _openai.CreateAudioTranscription(req);
+            _recordingText.text = $"\"{res.Text}\"";
 
             _outputText = res.Text;
-
+            
             Debug.Log($"녹음 완료. 텍스트: {_outputText}");
 
             // 변환한 질문 텍스트를 GptManager에 전달해서 응답 받기
