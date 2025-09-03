@@ -17,6 +17,7 @@ namespace Samples.Whisper
         [Header("UI")]
         [SerializeField] private Image _progressImage;
         [SerializeField] private TextMeshProUGUI _recordingText;
+        [SerializeField] private GameObject _translatorIcon;
         private CancellationTokenSource _progressCts;
 
         [Header("Record Settings")]
@@ -150,6 +151,7 @@ namespace Samples.Whisper
                         Debug.Log(hintMessage);
 
                         ElevenlabsAPI.Instance.GetAudio(hintMessage);
+                        SetTranslator(false);
                     }
                 }
             }
@@ -163,6 +165,8 @@ namespace Samples.Whisper
         public void SetTranslator(bool value)
         {
             _useTranslator = value;
+
+            _translatorIcon.SetActive(_useTranslator);
         }
 
         public void EndResponse()

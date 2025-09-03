@@ -22,6 +22,7 @@ public class UIManager : MonoBehaviour
     [Space(5)]
     public UIBase ringItemUI;
     public UIBase matchItemUI;
+    public UIBase translatorUI;
 
 
     [Header("3D 콘텐츠 UI 세팅")]
