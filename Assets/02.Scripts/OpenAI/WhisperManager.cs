@@ -123,7 +123,16 @@ namespace Samples.Whisper
             {
                 string jundgement = await GptManager.Instance.RespondToPlayer(res.Text);
                 Debug.Log($"GptManager 응답: {jundgement}");
-                _recordButton.interactable = true;
+
+                if (jundgement == "판단 불가")
+                {
+                    
+                }
+                else
+                {
+                    // 0, X 판단 가능
+                }
+                    _recordButton.interactable = true;
             }
         }
 
@@ -153,11 +162,22 @@ namespace Samples.Whisper
 
             Debug.Log($"녹음 완료. 텍스트: {_outputText}");
 
-            // 변환한 질문 텍스트를 GptManager에 전달해서 응답 받기
+            // 변환한 질문 텍스트를 HintManager에 전달해서 응답 받기
             if (!string.IsNullOrWhiteSpace(res.Text))
             {
-                
-                
+                string jundgement = await GptManager.Instance.RespondToPlayer(res.Text);
+                Debug.Log($"GPTManager 응답: {jundgement}");
+                if (jundgement != "판단 불가")
+                {
+                    string hintMessage = await HintManager.Instance.ResondToPlayer(res.Text);
+                    Debug.Log(hintMessage);
+
+                    ElevenlabsAPI.Instance.GetAudio(hintMessage);
+                }
+                else
+                {
+                    
+                }
                 _recordButton.interactable = true;
             }
         }

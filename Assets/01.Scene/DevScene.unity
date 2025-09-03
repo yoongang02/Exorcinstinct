@@ -17460,7 +17460,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &897380381
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17478,7 +17478,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -390}
+  m_AnchoredPosition: {x: 0, y: 390}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &897380382
@@ -269827,6 +269827,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GptManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6523356198820045467, guid: bf1222902dcdf0b45849d3a129ee3608, type: 3}
+      propertyPath: temperature
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7886695062678300366, guid: bf1222902dcdf0b45849d3a129ee3608, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -270220,6 +270224,10 @@ PrefabInstance:
     - target: {fileID: 7446225168135760150, guid: 2f567a0469e1c8340ba82b4196b221a0, type: 3}
       propertyPath: m_Name
       value: HintManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8283531883660346765, guid: 2f567a0469e1c8340ba82b4196b221a0, type: 3}
+      propertyPath: temperature
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8468924745944189444, guid: 2f567a0469e1c8340ba82b4196b221a0, type: 3}
       propertyPath: m_LocalPosition.x
