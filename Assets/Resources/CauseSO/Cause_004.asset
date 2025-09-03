@@ -17,3 +17,4 @@ MonoBehaviour:
   enabled: 1
   weight: 1
   iconPath: CauseIcon/Cause_001
+  onomatopoeia: "\uB728\uAC70\uC6CC"

@@ -13,11 +13,15 @@ MonoBehaviour:
   m_Name: Student_001
   m_EditorClassIdentifier: 
   id: Student_001
-  label: "\uAE40\uBBFC\uC9C0"
+  label: "\uAC15\uAC00\uC740"
   features:
   - {fileID: 11400000, guid: 89be1cb69ba7844b1b0d29049882a27a, type: 2}
-  - {fileID: 11400000, guid: fd937637736784123bdd74fe41eb029a, type: 2}
   - {fileID: 11400000, guid: 348084983651d4060a75c87bde93b817, type: 2}
+  - {fileID: 11400000, guid: 1fc90b0ab1c19794abcfbac017dad8f4, type: 2}
+  - {fileID: 11400000, guid: e226e8f169a0723409252adf0dd3b7c1, type: 2}
+  - {fileID: 11400000, guid: 07970847b47f9ca4cb4e78a3e57d100c, type: 2}
+  - {fileID: 11400000, guid: e59ac7168de1aac448d847516986f4a2, type: 2}
   enabled: 1
   weight: 1
   sprite: Portrait/Student_001
+  chapterIndex: 0

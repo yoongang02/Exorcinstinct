@@ -156,10 +156,8 @@ namespace Samples.Whisper
             // 변환한 질문 텍스트를 GptManager에 전달해서 응답 받기
             if (!string.IsNullOrWhiteSpace(res.Text))
             {
-                var rule = await HintManager.Instance.RespondToPlayer(RoundManager.Instance.GetCurrentAnswer(), _outputText);
-                var hintText = HintManager.Instance.ComposeHintText(rule);
-                Debug.Log(hintText);
-                ElevenlabsAPI.Instance.GetAudio(hintText);
+                
+                
                 _recordButton.interactable = true;
             }
         }

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Location_006
   floor: "4\uCE35"
-  direction: "\uB3D9\uAD00"
+  wing: "\uB3D9\uAD00"
   label: "\uC0DD\uBA85\uACFC\uD559\uC2E4\uD5D8\uC2E4"
   causes:
   - {fileID: 11400000, guid: b71da41f8ce384022aba05c629c69d50, type: 2}

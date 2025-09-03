@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Feature_004
   label: "\uB450\uAEBC\uC6B4 \uB208\uC379"
+  category: "\uB208\uC379"
