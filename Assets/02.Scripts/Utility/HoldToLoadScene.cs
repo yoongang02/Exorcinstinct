@@ -12,9 +12,17 @@ public class HoldToLoadScene : MonoBehaviour
     [SerializeField] private Image progressImage;    
 
     private float holdTime = 0f;
+    private bool _isComplete = false;
+
+    private void Awake()
+    {
+        _isComplete = false;
+    }
 
     void Update()
     {
+        if (_isComplete) return;
+
         if (Input.GetKey(KeyCode.Space))
         {
             holdTime += Time.deltaTime;
@@ -22,6 +30,7 @@ public class HoldToLoadScene : MonoBehaviour
 
             if (progressImage.fillAmount >= 1f)
             {
+                _isComplete = true;
                 SceneChanger.Instance.ChangeScene(targetSceneName).Forget();
             }
         }
