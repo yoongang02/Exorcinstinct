@@ -15,4 +15,4 @@ MonoBehaviour:
   soundName: GameOver
   clip: {fileID: 8300000, guid: d7337fc8fe9b8744ebbac671da2f4315, type: 3}
   loopCnt: 0
-  volume: 1
+  volume: 2

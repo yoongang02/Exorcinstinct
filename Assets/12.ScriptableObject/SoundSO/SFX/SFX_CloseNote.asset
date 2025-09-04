@@ -15,4 +15,4 @@ MonoBehaviour:
   soundName: CloseNote
   clip: {fileID: 8300000, guid: 97033c185b84f9249b3fb011fbb16e4c, type: 3}
   loopCnt: 0
-  volume: 1
+  volume: 10
