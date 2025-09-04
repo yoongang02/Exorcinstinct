@@ -4,6 +4,7 @@ using System.Text;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Audio; // (선택) 믹서 쓰면 필요
 
 public class ElevenlabsAPI : MonoBehaviour
 {
@@ -13,8 +14,28 @@ public class ElevenlabsAPI : MonoBehaviour
     private string _apiUrl = "https://api.elevenlabs.io";
 
     [Header("Options")]
-    public bool Streaming = false; // 우선 false로 안정화 후 확장
+    public bool Streaming = false;
     [Range(0, 4)] public int LatencyOptimization = 0;
+
+    [Header("SFX")]
+    [Tooltip("TTS 앞에 재생할 효과음")]
+    public AudioClip sfxBefore;
+    [Range(0f, 1f)] public float sfxBeforeVolume = 1f;
+
+    [Tooltip("TTS 뒤에 재생할 효과음")]
+    public AudioClip sfxAfter;
+    [Range(0f, 1f)] public float sfxAfterVolume = 1f;
+
+    [Tooltip("TTS 본편 볼륨")]
+    [Range(0f, 1f)] public float ttsVolume = 1f;
+
+    [Tooltip("3D로 들리게 할지(1=완전 3D)")]
+    [Range(0f, 1f)] public float spatialBlend = 0f;
+
+    [Tooltip("(선택) 출력 믹서 그룹")]
+    public AudioMixerGroup outputMixer;
+
+    private AudioSource _source; // 재생 전용 소스
 
     [System.Serializable]
     public class AudioClipEvent : UnityEngine.Events.UnityEvent<AudioClip> { }
@@ -22,7 +43,7 @@ public class ElevenlabsAPI : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
@@ -30,8 +51,17 @@ public class ElevenlabsAPI : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
 
+        // 재생용 오디오소스 준비
+        _source = gameObject.AddComponent<AudioSource>();
+        _source.playOnAwake = false;
+        _source.loop = false;
+        _source.spatialBlend = spatialBlend;
+        _source.outputAudioMixerGroup = outputMixer;
+
+        // TTS 수신 시 재생
         AudioReceived.AddListener(PlayClip);
     }
 
@@ -48,7 +78,7 @@ public class ElevenlabsAPI : MonoBehaviour
     {
         public float stability;          // 0..1
         public float similarity_boost;   // 0..1
-        public float style;              // 0..1 (문서상 범위는 모델별 상이)
+        public float style;              // 0..1
         public bool use_speaker_boost;
     }
 
@@ -103,7 +133,6 @@ public class ElevenlabsAPI : MonoBehaviour
             if (request.isNetworkError || request.isHttpError)
 #endif
             {
-                // 본문까지 출력해주면 디버깅 쉬움
                 string body = null;
                 try { body = request.downloadHandler?.text; } catch { }
                 Debug.LogError($"TTS Error: {request.error}\n{body}");
@@ -123,7 +152,51 @@ public class ElevenlabsAPI : MonoBehaviour
 
     public void PlayClip(AudioClip clip)
     {
-        // 메인 카메라 위치에서 3D one-shot로 재생 (임시 AudioSource를 내부적으로 생성했다가 clip 길이 후 파괴)
-        AudioSource.PlayClipAtPoint(clip, Camera.main.transform.position);
+        // 직렬 재생 코루틴으로 연결
+        StartCoroutine(PlayWithSfx(clip));
+    }
+
+    private IEnumerator PlayWithSfx(AudioClip ttsClip)
+    {
+        if (_source == null)
+        {
+            Debug.LogWarning("AudioSource not initialized.");
+            yield break;
+        }
+
+        // (선택) 공간감 업데이트: 카메라 위치로 이동
+        if (Camera.main != null)
+        {
+            transform.position = Camera.main.transform.position;
+        }
+        _source.spatialBlend = spatialBlend;
+
+        // 1) SFX Before
+        if (sfxBefore != null)
+        {
+            _source.clip = sfxBefore;
+            _source.volume = sfxBeforeVolume;
+            _source.Play();
+            yield return new WaitForSeconds(sfxBefore.length);
+        }
+
+        // 2) TTS 본편
+        if (ttsClip != null)
+        {
+            _source.clip = ttsClip;
+            _source.volume = ttsVolume;
+            _source.Play();
+            // 길이 신뢰가 낮으면 isPlaying 폴백도 고려
+            yield return new WaitForSeconds(ttsClip.length);
+        }
+
+        // 3) SFX After
+        if (sfxAfter != null)
+        {
+            _source.clip = sfxAfter;
+            _source.volume = sfxAfterVolume;
+            _source.Play();
+            yield return new WaitForSeconds(sfxAfter.length);
+        }
     }
 }

@@ -163,6 +163,8 @@ public class StudentListUI : UIBase
                 _currentOffset = Mathf.Max(0, ((studentCount - 1) / pageCapacity) * pageCapacity);
             }
         }
+
+        SoundManager.Instance.PlaySFX("MovePage");
         UpdatePages();
     }
 
@@ -191,6 +193,7 @@ public class StudentListUI : UIBase
                 _currentOffset = 0;
             }
         }
+        SoundManager.Instance.PlaySFX("MovePage");
         UpdatePages();
     }
 

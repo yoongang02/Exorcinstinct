@@ -18,11 +18,17 @@ public class CandleController : MonoBehaviour
     {
         _smoke.SetActive(false);
         _animator.SetTrigger("LightOn");
+
+        // SFX
+        SoundManager.Instance.PlaySFX("LightOn");
     }
 
     public void LightOff()
     {
         _animator.SetTrigger("LightOff");
+
+        // SFX
+        SoundManager.Instance.PlaySFX("LightOff");
     }
 
     public void SmokeOn()

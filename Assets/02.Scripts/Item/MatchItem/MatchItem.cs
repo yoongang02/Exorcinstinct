@@ -21,6 +21,8 @@ public class MatchItem : UIBase
     public void OnClickYesBtn()
     {
         RoundManager.Instance.LightCandle();
+        //SFX
+        SoundManager.Instance.PlaySFX("UseMatch");
     }
 
     public void OnClickNoBtn()

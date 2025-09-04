@@ -105,6 +105,7 @@ public class MemoUI : MonoBehaviour
     public void ClickLeftPageBtn()
     {
         // 사운드 연결
+        SoundManager.Instance.PlaySFX("MoveMemo");
 
         // 현재 페이지 내용 저장
         SavePageContent();
@@ -119,6 +120,7 @@ public class MemoUI : MonoBehaviour
     public void ClickRightPageBtn()
     {
         // 사운드 연결
+        SoundManager.Instance.PlaySFX("MoveMemo");
 
         // 현재 페이지 내용 저장
         SavePageContent();

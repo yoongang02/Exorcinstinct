@@ -27,4 +27,14 @@ public class UIBase : MonoBehaviour
     {
         return UIManager.Instance.GetTopUI() == this;
     }
+
+    public void PlayClickSound()
+    {
+        SoundManager.Instance.PlaySFX("Click");
+    }
+
+    public void PlayHoverSound()
+    {
+        SoundManager.Instance.PlaySFX("Hover");
+    }
 }

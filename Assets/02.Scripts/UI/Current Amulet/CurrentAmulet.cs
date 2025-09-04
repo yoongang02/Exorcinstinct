@@ -72,6 +72,9 @@ public class CurrentAmulet : MonoBehaviour
 
     IEnumerator PrintOneByOne(string message, TextMeshProUGUI textComponent, float delay)
     {
+        //SFX
+        SoundManager.Instance.PlaySFX("WriteAmulet");
+
         textComponent.text = "";
         foreach (var c in message)
         {

@@ -33,6 +33,9 @@ public class HandController : MonoBehaviour
     {
         Debug.Log("손 에러");
         _animator.SetTrigger("Error");
+
+        //SFX
+        SoundManager.Instance.PlaySFX("Error");
     }
 
     /// <summary>

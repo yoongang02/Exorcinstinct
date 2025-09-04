@@ -282371,6 +282371,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2047983085}
     m_Modifications:
+    - target: {fileID: 708530368447537133, guid: 26f3888c626c50d4f89d0b57fc344a5d, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 708530368447537133, guid: 26f3888c626c50d4f89d0b57fc344a5d, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: -2840136634868304333, guid: 30a55b01025c5f340941e8bb95ec5bec, type: 3}
     - target: {fileID: 6564168143087306013, guid: 26f3888c626c50d4f89d0b57fc344a5d, type: 3}
       propertyPath: m_Name
       value: Desk(X)
@@ -363708,6 +363716,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1023248970}
     m_Modifications:
+    - target: {fileID: 1731973028585915550, guid: da7c43795c4c7b04c91668ace4e434de, type: 3}
+      propertyPath: sfxAfter
+      value: 
+      objectReference: {fileID: 8300000, guid: b2b2b6095f8ee274db6ffa15a3a0e487, type: 3}
+    - target: {fileID: 1731973028585915550, guid: da7c43795c4c7b04c91668ace4e434de, type: 3}
+      propertyPath: sfxBefore
+      value: 
+      objectReference: {fileID: 8300000, guid: 9ddd9e90f321f3442866c2f8a2273bd5, type: 3}
     - target: {fileID: 2551478331412206558, guid: da7c43795c4c7b04c91668ace4e434de, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

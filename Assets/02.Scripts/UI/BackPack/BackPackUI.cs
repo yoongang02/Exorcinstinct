@@ -10,6 +10,9 @@ public class BackPackUI : UIBase
         CameraController.Instance.LockCamera();
         CameraController.Instance.SetCursorFree();
 
+        // SFX
+        SoundManager.Instance.PlaySFX("OpenBackpack");
+
         transform.GetChild(0).gameObject.SetActive(true);
     }
 

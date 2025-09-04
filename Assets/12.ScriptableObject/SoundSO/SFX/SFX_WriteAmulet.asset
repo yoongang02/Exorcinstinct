@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c3af6296f37bd874c8bf8d80ed42efb9, type: 3}
-  m_Name: Sound_BGM1
+  m_Name: SFX_WriteAmulet
   m_EditorClassIdentifier: 
-  soundName: Sound_BGM1
-  clip: {fileID: 8300000, guid: 23ccc5133e80d5c46b37cc6272254d94, type: 3}
+  soundName: WriteAmulet
+  clip: {fileID: 8300000, guid: f3bab2538df524042afd361756103b52, type: 3}
   loopCnt: 0
   volume: 1

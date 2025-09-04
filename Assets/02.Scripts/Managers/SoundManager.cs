@@ -102,4 +102,14 @@ public class SoundManager : MonoBehaviour
         }
         sfxSources.Clear();
     }
+
+    public void PlayClickSound()
+    {
+        PlaySFX("Click");
+    }
+
+    public void PlayHoverSound()
+    {
+        PlaySFX("Hover");
+    }
 }

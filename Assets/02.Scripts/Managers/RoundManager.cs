@@ -230,6 +230,9 @@ public class RoundManager : MonoBehaviour
         yield return null;
 
         _burningAmulet.SetActive(true);
+        
+        //SFX
+        SoundManager.Instance.PlaySFX("UseAmulet");
 
         yield return new WaitForSeconds(5f);
         bool result = false;
