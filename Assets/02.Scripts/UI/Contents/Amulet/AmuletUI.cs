@@ -125,8 +125,8 @@ public class AmuletUI : UIBase
 
     public void OnClickYesBtn()
     {
-        RoundManager.Instance.CheckAnswer();
         OnClickEscapeBtn();
+        StartCoroutine(RoundManager.Instance.CheckAnswer());
     }
 
     public void OnClickNoBtn()

@@ -1,5 +1,6 @@
 ﻿using OpenAI;
 using Samples.Whisper;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -31,6 +32,10 @@ public class RoundManager : MonoBehaviour
     [Header("Ring Variable")]
     [Space(5)]
     [SerializeField] private GhostDummy _ghostDummy;
+
+    [Header("Ending Variable")]
+    [Space(5)]
+    [SerializeField] private GameObject _burningAmulet;
 
 
     private void Awake()
@@ -208,8 +213,41 @@ public class RoundManager : MonoBehaviour
         UIManager.Instance.CloseTopUI();
     }
 
-    public void CheckAnswer()
+    public IEnumerator CheckAnswer()
     {
+        CameraController.Instance.LockCamera();
+        CameraController.Instance.SetCursorFree();
 
+        UIManager.Instance.inputLock = true;
+        UIManager.Instance.SetUI2DCanvas(false);
+
+        yield return null;
+
+        _burningAmulet.SetActive(true);
+
+        yield return new WaitForSeconds(5f);
+        bool result = false;
+
+        if (_curStudentSO == null || _curLocationSO == null || _curCauseSO == null) result = false;
+        else
+        {
+            if (_currentAnswer.studentSO == _curStudentSO && _currentAnswer.locationSO == _curLocationSO && _currentAnswer.causeSO == _curCauseSO)
+            {
+                result = true;
+            }
+            else
+            {
+                result = false;
+            }
+        }
+
+        if (result)
+        {
+            Debug.Log("성공");
+        }
+        else
+        {
+            Debug.Log("실패");
+        }
     }
 }

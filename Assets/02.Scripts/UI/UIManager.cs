@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance {  get; private set; }
     public UIBase topUI;
+    public bool inputLock = false;
 
     private Stack<UIBase> _uiStack = new Stack<UIBase>();
 
@@ -29,7 +30,6 @@ public class UIManager : MonoBehaviour
     [Space(5)]
     [SerializeField] private GameObject _canvasUI2D;
     [SerializeField] private Camera _mainCamera;
-    private bool _isUI3DOpen = false;
 
     [Header("옥반지 아이템 UI 세팅")]
     [Space(5)]
@@ -51,6 +51,8 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
+        if (inputLock) return;
+
         if (InputRouter.Instance.ConsumeE())
         {
             memoUI.OnOpen();
