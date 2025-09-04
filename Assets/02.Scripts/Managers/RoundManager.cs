@@ -39,6 +39,10 @@ public class RoundManager : MonoBehaviour
     [Space(5)]
     [SerializeField] private BurningPaperController_Vertical _burningAmulet;
 
+    public bool isRingUsed = false;
+    public bool isTransUsed = false;
+    public bool isMatchUsed = false;
+
 
     private void Awake()
     {
@@ -267,6 +271,7 @@ public class RoundManager : MonoBehaviour
             Debug.Log("성공");
             SoundManager.Instance.PlaySFX("UseAmulet");
             TimelineController.Instance.PlayTimeline(TimelineController.Instance.roundSuccess);
+            return;
         }
         else
         {

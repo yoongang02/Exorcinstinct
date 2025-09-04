@@ -56,6 +56,7 @@ namespace Samples.Whisper
         public void StartRecording()
         {
             if (_isRecording) return;
+            if (GameManager.Instance.GetCurQuestionCnt() <= 0) return;
             _isRecording = true;
             canRecord = false;
             _recordingText.text = "";
@@ -147,6 +148,7 @@ namespace Samples.Whisper
 
                     if (_useTranslator)
                     {
+                        RoundManager.Instance.isTransUsed = true;
                         string hintMessage = await HintManager.Instance.ResondToPlayer(res.Text);
                         Debug.Log(hintMessage);
 

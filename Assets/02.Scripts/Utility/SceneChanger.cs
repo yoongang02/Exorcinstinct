@@ -95,4 +95,9 @@ public class SceneChanger : MonoBehaviour
     {
         FadeOut().Forget();
     }
+
+    public void MoveToSuccess()
+    {
+        ChangeScene("SuccessEnding").Forget();
+    }
 }

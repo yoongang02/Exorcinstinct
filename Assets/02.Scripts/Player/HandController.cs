@@ -72,7 +72,7 @@ public class HandController : MonoBehaviour
     /// </summary>
     public void WhenQuestionFail()
     {
-
+        WhisperManager.Instance.EndResponse();
     }
 
     private void OnDisable()

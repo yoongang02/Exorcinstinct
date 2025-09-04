@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/01.Scene/Real Use Scenes/MainScene.unity
     guid: 3b0adb049ac4d2a49816e031d7b537c7
+  - enabled: 1
+    path: Assets/01.Scene/Real Use Scenes/SuccessEnding.unity
+    guid: 2c3c8c8419dc01140b1a8df2d80038b7
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 5702ddd70a6602e4bb53196548f5cf3d, type: 3}
   m_UseUCBPForAssetBundles: 0

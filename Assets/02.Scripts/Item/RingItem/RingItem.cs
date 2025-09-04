@@ -27,7 +27,7 @@ public class RingItem : UIBase
     public override void OnOpen()
     {
         base.OnOpen();
-
+        RoundManager.Instance.isRingUsed = true;
         _escapeBtn.gameObject.SetActive(false);
 
         // 옥반지 아이템 사용 관련하여 캔버스 및 카메라 설정

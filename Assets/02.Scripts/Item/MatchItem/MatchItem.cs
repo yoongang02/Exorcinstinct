@@ -23,6 +23,7 @@ public class MatchItem : UIBase
         RoundManager.Instance.LightCandle();
         //SFX
         SoundManager.Instance.PlaySFX("UseMatch");
+        RoundManager.Instance.isMatchUsed = true;
     }
 
     public void OnClickNoBtn()
