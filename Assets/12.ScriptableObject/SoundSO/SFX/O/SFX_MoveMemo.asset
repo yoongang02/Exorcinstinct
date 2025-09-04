@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c3af6296f37bd874c8bf8d80ed42efb9, type: 3}
-  m_Name: SFX_MovePage
+  m_Name: SFX_MoveMemo
   m_EditorClassIdentifier: 
-  soundName: MovePage
-  clip: {fileID: 8300000, guid: 4134b182c6c775c4991f0066958db8b8, type: 3}
+  soundName: MoveMemo
+  clip: {fileID: 8300000, guid: e4000f7eb31c2a041be03006192a22e8, type: 3}
   loopCnt: 0
-  volume: 1
+  volume: 0.2
