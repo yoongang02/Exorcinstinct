@@ -29,6 +29,9 @@ public class MemoUI : MonoBehaviour
         CameraController.Instance.LockCamera();
         CameraController.Instance.SetCursorFree();
 
+        // SFX
+        SoundManager.Instance.PlaySFX("OpenNote");
+
 
         // 메모장 아이콘 변경
         _memoNoteIcon.sprite = _memoNoteSprites[1];
@@ -60,6 +63,9 @@ public class MemoUI : MonoBehaviour
         // 카메라 고정 해제
         if(!UIManager.Instance.IsAnyUIOpen())
             CameraController.Instance.UnLockCamera();
+
+        // SFX
+        SoundManager.Instance.PlaySFX("CloseNote");
 
         // 메모장 아이콘 변경
         _memoNoteIcon.sprite = _memoNoteSprites[0];

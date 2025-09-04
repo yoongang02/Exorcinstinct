@@ -24,6 +24,9 @@ public class BackPackUI : UIBase
         if(!UIManager.Instance.IsAnyUIOpen())
             CameraController.Instance.UnLockCamera();
 
+        // SFX
+        SoundManager.Instance.PlaySFX("CloseBackpack");
+
         transform.GetChild(0).gameObject.SetActive(false);
     }
 
