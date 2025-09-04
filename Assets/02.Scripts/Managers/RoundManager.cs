@@ -63,6 +63,12 @@ public class RoundManager : MonoBehaviour
         GptManager.Instance.RoundStartSetting(_currentAnswer);
 
         _ghostDummy.SetDummy(_currentAnswer);
+
+        // 촛불 불을 킴
+        
+        // 2d UI 활성화
+
+        // 사용자 손 등장
     }
 
     // 라운드 시작마다, 정답을 랜덤으로 생성하는 함수
