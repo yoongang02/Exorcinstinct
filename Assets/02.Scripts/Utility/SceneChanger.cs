@@ -63,4 +63,36 @@ public class SceneChanger : MonoBehaviour
             await UniTask.Yield();
         }
     }
+
+    public async UniTask FadeIn()
+    {
+        _fadeImg = transform.GetComponentInChildren<CanvasGroup>();
+        _fadeImg.alpha = 1; // 시작은 가려진 상태
+        _fadeImg.blocksRaycasts = true;
+
+        await _fadeImg.DOFade(0, fadeDuration)
+            .OnComplete(() => { _fadeImg.blocksRaycasts = false; })
+            .AsyncWaitForCompletion();
+    }
+
+    public async UniTask FadeOut()
+    {
+        _fadeImg = transform.GetComponentInChildren<CanvasGroup>();
+        _fadeImg.alpha = 0; // 시작은 보이는 상태
+        _fadeImg.blocksRaycasts = false;
+
+        await _fadeImg.DOFade(1, fadeDuration)
+            .OnStart(() => { _fadeImg.blocksRaycasts = true; })
+            .AsyncWaitForCompletion();
+    }
+
+    public void DoFadeIn()
+    {
+        FadeIn().Forget();
+    }
+
+    public void DoFadeOut()
+    {
+        FadeOut().Forget();
+    }
 }

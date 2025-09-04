@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -125,6 +125,17 @@ namespace Solodream_BurningPaper
                     _sparkAsh.SetFloat(_lacunarityParam, _lacunarity);
                 }
             }
+        }
+
+        public void Reset()
+        {
+            _isReset = true;
+        }
+
+        public void Burn()
+        {
+            _isReset = false;
+            _isVerticalBurning = true;
         }
     }
 }

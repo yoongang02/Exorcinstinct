@@ -12,6 +12,9 @@ public class CandleController : MonoBehaviour
     private void Awake()
     {
         _animator = GetComponent<Animator>();
+        _flame.SetActive(false);
+        _light.SetActive(false);
+        _smoke.SetActive(false);
     }
 
     public void LightOn()
@@ -36,12 +39,19 @@ public class CandleController : MonoBehaviour
         _flame.SetActive(false);
         _light.SetActive(false);
         _smoke.SetActive(true);
-        //StartCoroutine(SmokeOff());
+        StartCoroutine(SmokeOff());
     }
 
     IEnumerator SmokeOff()
     {
         yield return new WaitForSeconds(_smokeSeconds);
+        _smoke.SetActive(false);
+    }
+
+    public void InitCandle()
+    {
+        _flame.SetActive(false);
+        _light.SetActive(false);
         _smoke.SetActive(false);
     }
 }

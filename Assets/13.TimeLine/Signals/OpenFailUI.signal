@@ -9,10 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3af6296f37bd874c8bf8d80ed42efb9, type: 3}
-  m_Name: SFX_LightOn
+  m_Script: {fileID: 11500000, guid: d6fa2d92fc1b3f34da284357edf89c3b, type: 3}
+  m_Name: OpenFailUI
   m_EditorClassIdentifier: 
-  soundName: LightOn
-  clip: {fileID: 8300000, guid: fec350e289d97374391be37fc60084ae, type: 3}
-  loopCnt: 0
-  volume: 0.2

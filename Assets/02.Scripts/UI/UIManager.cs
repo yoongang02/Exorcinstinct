@@ -36,6 +36,15 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _defaultUI;
     [SerializeField] private GameObject _leftTopUI;
 
+    [Header("라운드 UI 세팅")]
+    [Space(5)]
+    public List<GameObject> inactiveUIs = new List<GameObject>();
+
+    [Header("엔딩 UI 세팅")]
+    [Space(5)]
+    public UIBase _failUI;
+    public UIBase _successUI;
+
     private void Awake()
     {
         if(Instance == null)
@@ -196,5 +205,10 @@ public class UIManager : MonoBehaviour
     {
         _defaultUI.SetActive(value);
         _leftTopUI.SetActive(value);
+    }
+
+    public void OpenFailUI()
+    {
+        OpenUI(_failUI);
     }
 }

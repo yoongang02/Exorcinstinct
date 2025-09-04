@@ -43,8 +43,6 @@ public class SoundManager : MonoBehaviour
             return;
         }
 
-        AudioSource bgmSource = gameObject.AddComponent<AudioSource>();
-
         SoundData data = soundDictionary[soundName];
         AudioClip clip = data.clip;
         bgmSource.clip = clip;

@@ -15,4 +15,4 @@ MonoBehaviour:
   soundName: BGM1
   clip: {fileID: 8300000, guid: 23ccc5133e80d5c46b37cc6272254d94, type: 3}
   loopCnt: 0
-  volume: 0.1
+  volume: 0.05

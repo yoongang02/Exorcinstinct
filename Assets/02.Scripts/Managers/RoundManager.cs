@@ -1,7 +1,9 @@
 ﻿using OpenAI;
 using Samples.Whisper;
+using Solodream_BurningPaper;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -35,7 +37,7 @@ public class RoundManager : MonoBehaviour
 
     [Header("Ending Variable")]
     [Space(5)]
-    [SerializeField] private GameObject _burningAmulet;
+    [SerializeField] private BurningPaperController_Vertical _burningAmulet;
 
 
     private void Awake()
@@ -51,8 +53,23 @@ public class RoundManager : MonoBehaviour
         }
     }
 
-    public void RoundStart()
+    public void RoundInit()
     {
+        // 카메라
+        CameraController.Instance.LockCamera();
+
+        // 촛불 끈 상태
+        foreach (var candle in _candles)
+        {
+            candle.InitCandle();
+        }
+
+        // 모든 UI 비활성화
+        foreach (var ui in UIManager.Instance.inactiveUIs)
+        {
+            ui.SetActive(false);
+        }
+
         // 부적 UI 초기화
         OnClearAmulet?.Invoke();
 
@@ -63,12 +80,21 @@ public class RoundManager : MonoBehaviour
         GptManager.Instance.RoundStartSetting(_currentAnswer);
 
         _ghostDummy.SetDummy(_currentAnswer);
+    }
+
+    public void RoundStart()
+    {
+        // 카메라 해제
+        CameraController.Instance.UnLockCamera();
 
         // 촛불 불을 킴
-        
-        // 2d UI 활성화
+        AllCandleLightOn();
 
-        // 사용자 손 등장
+        // UI 활성화
+        foreach (var ui in UIManager.Instance.inactiveUIs)
+        {
+            ui.SetActive(true);
+        }
     }
 
     // 라운드 시작마다, 정답을 랜덤으로 생성하는 함수
@@ -219,22 +245,8 @@ public class RoundManager : MonoBehaviour
         UIManager.Instance.CloseTopUI();
     }
 
-    public IEnumerator CheckAnswer()
+    public void CheckAnswer()
     {
-        CameraController.Instance.LockCamera();
-        CameraController.Instance.SetCursorFree();
-
-        UIManager.Instance.inputLock = true;
-        UIManager.Instance.SetUI2DCanvas(false);
-
-        yield return null;
-
-        _burningAmulet.SetActive(true);
-        
-        //SFX
-        SoundManager.Instance.PlaySFX("UseAmulet");
-
-        yield return new WaitForSeconds(5f);
         bool result = false;
 
         if (_curStudentSO == null || _curLocationSO == null || _curCauseSO == null) result = false;
@@ -253,10 +265,41 @@ public class RoundManager : MonoBehaviour
         if (result)
         {
             Debug.Log("성공");
+            SoundManager.Instance.PlaySFX("UseAmulet");
+            TimelineController.Instance.PlayTimeline(TimelineController.Instance.roundSuccess);
         }
         else
         {
             Debug.Log("실패");
+            SoundManager.Instance.PlaySFX("UseAmulet");
+            TimelineController.Instance.PlayTimeline(TimelineController.Instance.roundFail);
         }
+    }
+
+    public void AllCandleLightOn()
+    {
+        foreach (var candle in _candles)
+        {
+            candle.LightOn();
+        }
+    }
+
+    public void AllCandleLightOff()
+    {
+        foreach (var candle in _candles)
+        {
+            candle.LightOff();
+        }
+    }
+
+    public void BurnAmulet()
+    {
+        _burningAmulet.Reset();
+        _burningAmulet.Burn();
+    }
+
+    public void SetBloodEnvironment()
+    {
+
     }
 }
