@@ -15,4 +15,4 @@ MonoBehaviour:
   soundName: OpenNote
   clip: {fileID: 8300000, guid: 05b067fc10bf2bb499f2255888e0022b, type: 3}
   loopCnt: 0
-  volume: 1
+  volume: 10
