@@ -21,12 +21,18 @@ public class HandController : MonoBehaviour
     {
         Debug.Log("손 O로 이동");
         _animator.SetTrigger("MoveToO");
+
+        //SFX
+        SoundManager.Instance.PlaySFX("OX");
     }
 
     private void MoveToX()
     {
         Debug.Log("손 X로 이동");
         _animator.SetTrigger("MoveToX");
+
+        //SFX
+        SoundManager.Instance.PlaySFX("OX");
     }
 
     private void MoveError()
