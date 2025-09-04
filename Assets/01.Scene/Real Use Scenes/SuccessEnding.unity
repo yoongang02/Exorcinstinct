@@ -478,11 +478,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6097347494697245804, guid: b946c363952fa274eb0bdae02bd200d6, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 400
+      value: 354.4
       objectReference: {fileID: 0}
     - target: {fileID: 6097347494697245804, guid: b946c363952fa274eb0bdae02bd200d6, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 280
+      value: 349.8
       objectReference: {fileID: 0}
     - target: {fileID: 6097347494697245804, guid: b946c363952fa274eb0bdae02bd200d6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -863,17 +863,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB098\uB294 \uC774 \uD559\uAD50\uC758 \uC57C\uAC04 \uACBD\uBE44\uB97C
-    \uB9E1\uAC8C \uB418\uC5C8\uB2E4.\r\n\uC55E\uC120 \uC774\uB4E4\uC740 \uBAA8\uB450
-    \uB2E8 \uD558\uB8E8\uB3C4 \uBC84\uD2F0\uC9C0 \uBABB\uD558\uACE0 \uB3C4\uB9DD\uCCE4\uB2E4.\r\n\uADC0\uC2E0\uC774
-    \uB098\uD0C0\uB09C\uB2E4\uB294 \uC774\uC720\uC600\uB2E4.\r\n\uADF8 \uB54C\uBB38\uC77C\uAE4C,
-    \uAE09\uC5EC\uB294 \uC720\uB09C\uD788 \uB192\uC558\uB2E4.\r\n\uB098\uB294 \uC774
-    \uAE30\uD68C\uB97C \uB193\uCE58\uACE0 \uC2F6\uC9C0 \uC54A\uC558\uB2E4.\r\n\uC624\uB298
-    \uBC24, \uB098\uB294 \uADC0\uC2E0\uB4E4\uACFC \uB9C8\uC8FC\uD55C\uB2E4.\r\n\uC2E4\uC885\uC790
-    \uBA85\uB2E8\uACFC \uD559\uAD50 \uC9C0\uB3C4, \uADF8\uB9AC\uACE0 \uBD80\uC801\uC744
-    \uCC59\uACA8 \uD559\uAD50\uB85C \uD5A5\uD55C\uB2E4.\r\n\uAC15\uB839\uC220\uB85C
-    \uBD80\uC801\uC744 \uC644\uC131\uD574, \uB5A0\uB3C4\uB294 \uADC0\uC2E0\uB4E4\uC744
-    \uC2B9\uCC9C\uC2DC\uCF1C\uC57C \uD55C\uB2E4.\n\n"
+  m_text: "\uBAA8\uB4E0 \uBD80\uC801\uC774 \uBD88\uAE38 \uC18D\uC5D0\uC11C \uC0AC\uB77C\uC9C0\uC790,
+    \uAD50\uC2E4\uC740 \uACE0\uC694\uD574\uC84C\uB2E4.\r\n\uB5A0\uB3CC\uB358 \uADC0\uC2E0\uB4E4\uC740
+    \uD558\uB098\uB458 \uBE5B\uC774 \uB418\uC5B4 \uC0AC\uB77C\uC84C\uB2E4.\r\n\uD559\uAD50\uC758
+    \uBC24\uC740 \uB2E4\uC2DC \uD3C9\uC628\uC744 \uB418\uCC3E\uC558\uB2E4."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f22e3e4e62249914287e2c4115746c52, type: 2}
   m_sharedMaterial: {fileID: 6403669500751603258, guid: f22e3e4e62249914287e2c4115746c52, type: 2}
@@ -912,7 +905,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 50
+  m_lineSpacing: 147.5
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
