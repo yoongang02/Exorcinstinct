@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c3af6296f37bd874c8bf8d80ed42efb9, type: 3}
-  m_Name: SFX_LightOff
+  m_Name: SFX_Click
   m_EditorClassIdentifier: 
-  soundName: LightOff
-  clip: {fileID: 8300000, guid: 8171d5728de13b14dad82373cc0fd0cf, type: 3}
+  soundName: Click
+  clip: {fileID: 8300000, guid: 1755135a9303c1d4b8d503276861c843, type: 3}
   loopCnt: 0
-  volume: 1
+  volume: 0.5
