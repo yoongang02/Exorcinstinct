@@ -15,4 +15,4 @@ MonoBehaviour:
   soundName: LightOn
   clip: {fileID: 8300000, guid: fec350e289d97374391be37fc60084ae, type: 3}
   loopCnt: 0
-  volume: 0.02
+  volume: 0.01
