@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3af6296f37bd874c8bf8d80ed42efb9, type: 3}
+  m_Name: SFX_CloseNote
+  m_EditorClassIdentifier: 
+  soundName: CloseNote
+  clip: {fileID: 8300000, guid: 97033c185b84f9249b3fb011fbb16e4c, type: 3}
+  loopCnt: 0
+  volume: 10

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 189cae1d106b74f2083150d59b6165fe, type: 3}
+  m_Name: Location_022
+  m_EditorClassIdentifier: 
+  id: Location_020
+  floor: "2\uCE35"
+  wing: "\uB3D9\uAD00"
+  label: "\uAD50\uC7A5\uC2E4"
+  causes:
+  - {fileID: 11400000, guid: e9aa7464db2860c46bff830a2628f535, type: 2}
+  - {fileID: 11400000, guid: 656c1e07b2c569c44ad14cb30db05a21, type: 2}
+  enabled: 1
+  weight: 1

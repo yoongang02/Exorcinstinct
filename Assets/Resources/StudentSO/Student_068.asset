@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f27e1cc2b7c5e443a82636451c3f85d9, type: 3}
+  m_Name: Student_068
+  m_EditorClassIdentifier: 
+  id: Student_068
+  label: "\uC624\uC9C0\uC720"
+  features:
+  - {fileID: 11400000, guid: 81c9d42a1aa914e73be0243b316aebe9, type: 2}
+  - {fileID: 11400000, guid: 8494abcc38b004452ad0038f36c2a2a4, type: 2}
+  - {fileID: 11400000, guid: 3c6911c986be04aa8ab08b036f6bb6eb, type: 2}
+  - {fileID: 11400000, guid: e226e8f169a0723409252adf0dd3b7c1, type: 2}
+  - {fileID: 11400000, guid: b4d088891d26a8d4a93f76a355c80c1e, type: 2}
+  - {fileID: 11400000, guid: e59ac7168de1aac448d847516986f4a2, type: 2}
+  enabled: 1
+  weight: 1
+  sprite: Portrait/Student_068
+  chapterIndex: 3
